@@ -31,5 +31,17 @@ import {getColorVariants} from "@/composables/useColorSchemes";
         <Button tag="a" disabled v-for="cv in getColorVariants" :variant="cv" class="me-3 mb-3">
             {{cv}} Button
         </Button>
+
+        <h3>Outlined Button</h3>
+        <Button v-for="cv in getColorVariants" outline :variant="cv" class="me-3 mb-3">
+            {{cv}} Button
+        </Button>
+
+        <h3>Block Button</h3>
+       <div>
+           <Button v-for="cv in getColorVariants" block :variant="cv" class="mb-3">
+               {{cv}} Button
+           </Button>
+       </div>
     </div>
 </template>

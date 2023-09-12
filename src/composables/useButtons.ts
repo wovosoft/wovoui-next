@@ -21,3 +21,26 @@ export interface ButtonProps {
     small?: boolean;
     large?: boolean;
 }
+
+export interface ButtonGroupProps {
+    tag?: keyof HTMLElementTagNameMap;
+    ariaLabel?: string;
+    size?: ButtonSizes;
+    vertical?: boolean;
+    justified?: boolean;
+    outline?: boolean;
+    role?: string;
+}
+
+export interface ButtonToolbarProps {
+    tag?: keyof HTMLElementTagNameMap;
+    role?: string;
+    justified?: boolean;
+}
+
+export interface ButtonCloseProps {
+    size?: ButtonSizes;
+    white?: boolean;
+    ariaLabel?: string;
+    disabled?: boolean;
+}
