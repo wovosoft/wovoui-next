@@ -4,13 +4,6 @@ import {Card, CardTitle, CardText} from "@/components/Cards";
 import {Button} from "@/components/Buttons";
 import {getColorVariants} from "@/composables/useColorSchemes";
 
-const getRandomCv = () => {
-	const num = Math.round(Math.random() * 10);
-	if (num >= getColorVariants.length) {
-		return getColorVariants[num - 1];
-	}
-	return getColorVariants[num];
-}
 </script>
 
 <template>
