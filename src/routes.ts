@@ -32,6 +32,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         name: 'pages.buttons.button-close'
     },
     {
+        path: '/cards',
+        component: () => import('@/pages/Cards/Index.vue'),
+        meta: {title: 'Cards'},
+        name: 'pages.cards.index'
+    },
+    {
         path: '/list-groups',
         component: () => import('@/pages/ListGroups/Index.vue'),
         meta: {title: 'List Groups'},
