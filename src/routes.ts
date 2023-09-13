@@ -42,6 +42,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         component: () => import('@/pages/ListGroups/Index.vue'),
         meta: {title: 'List Groups'},
         name: 'pages.list-groups.index'
+    },
+    {
+        path: '/tables',
+        component: () => import('@/pages/Tables/Index.vue'),
+        meta: {title: 'Tables'},
+        name: 'pages.tables.index'
     }
 ];
 
