@@ -1,5 +1,6 @@
-import {ColorVariants, TextVariants} from "@/composables/useColorSchemes";
-import {ColOrders, ColSizes, ResponsiveNumbers} from "@/composables/useResponsive";
+import {ColorVariant, TextVariants} from "@/composables/useColorSchemes";
+import {ColOrders, ColSize, ResponsiveNumber} from "@/composables/useResponsive";
+import {BasicSize} from "@/composables/useButtons";
 
 export interface HasTag {
     tag?: keyof HTMLElementTagNameMap;
@@ -10,43 +11,55 @@ export interface HasTextVariant {
 }
 
 export interface HasVariant {
-    variant?: ColorVariants;
+    variant?: ColorVariant;
 }
 
 export interface HasBorderVariant {
-    borderVariant?: ColorVariants;
+    borderVariant?: ColorVariant;
 }
 
 export interface HasBgVariant {
-    bgVariant?: ColorVariants;
+    bgVariant?: ColorVariant;
 }
 
 export interface HasTextBgVariant {
-    textBgVariant?: ColorVariants;
+    textBgVariant?: ColorVariant;
 }
 
 export interface HasLayoutCols {
-    cols?: ColSizes;
-    sm?: ColSizes;
-    md?: ColSizes;
-    lg?: ColSizes;
-    xl?: ColSizes;
+    cols?: ColSize;
+    sm?: ColSize;
+    md?: ColSize;
+    lg?: ColSize;
+    xl?: ColSize;
 }
 
 export interface HasLayoutGutters {
-    g?: ColSizes;
-    gx?: 0 | ResponsiveNumbers;
-    gy?: 0 | ResponsiveNumbers;
-    gSm?: ColSizes;
-    gMd?: ColSizes;
-    gLg?: ColSizes;
-    gXl?: ColSizes;
+    g?: ColSize;
+    gx?: 0 | ResponsiveNumber;
+    gy?: 0 | ResponsiveNumber;
+    gSm?: ColSize;
+    gMd?: ColSize;
+    gLg?: ColSize;
+    gXl?: ColSize;
 }
 
 export interface HasLayoutOrders {
     order?: ColOrders;
-    offsetSm?: 0 | ResponsiveNumbers;
-    offsetMd?: 0 | ResponsiveNumbers;
-    offsetLg?: 0 | ResponsiveNumbers;
-    offsetXl?: 0 | ResponsiveNumbers;
+    offsetSm?: 0 | ResponsiveNumber;
+    offsetMd?: 0 | ResponsiveNumber;
+    offsetLg?: 0 | ResponsiveNumber;
+    offsetXl?: 0 | ResponsiveNumber;
+}
+
+export interface HasSize {
+    size?: BasicSize;
+}
+
+export interface HasScreenSizeProps{
+    sm?: ResponsiveNumber;
+    md?: ResponsiveNumber;
+    lg?: ResponsiveNumber;
+    xl?: ResponsiveNumber;
+    xxl?: ResponsiveNumber;
 }

@@ -5,3 +5,4 @@ export {default as Tfoot} from "./Tfoot.vue";
 export {default as Th} from "./Th.vue";
 export {default as Thead} from "./Thead.vue";
 export {default as Tr} from "./Tr.vue";
+export {default as Datatable} from "./Datatable.vue";

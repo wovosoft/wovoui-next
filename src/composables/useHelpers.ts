@@ -1,5 +1,7 @@
-import {ColorVariants, TextVariants} from "@/composables/useColorSchemes";
-import {PlaceholderSizes, ResponsiveNumbers} from "@/composables/useResponsive";
+import {ColorVariant, TextVariants} from "@/composables/useColorSchemes";
+import {PlaceholderSize, RectangularPosition, ResponsiveNumber} from "@/composables/useResponsive";
+import {isString} from "lodash";
+import {computed, ref, useModel} from "vue";
 
 export const MAX_UID = 1_000_000
 export const MILLISECONDS_MULTIPLIER = 1000
@@ -68,21 +70,21 @@ export const executeAfterTransition = (callback: () => any, transitionElement: E
 
 
 type VariantProp = {
-    bg?: ColorVariants;
-    border?: ColorVariants;
+    bg?: ColorVariant;
+    border?: ColorVariant;
     //both plain text variants and color variants are included
     //@link https://getbootstrap.com/docs/5.2/utilities/colors/#colors
-    text?: TextVariants | ColorVariants;
-    textBg?: ColorVariants;
+    text?: TextVariants | ColorVariant;
+    textBg?: ColorVariant;
     placeholderGlow?: boolean;
     placeholderWave?: boolean;
     placeholderAnimation?: 'glow' | 'wave';
-    placeholderSize?: PlaceholderSizes;
-    col?: ResponsiveNumbers;
+    placeholderSize?: PlaceholderSize;
+    col?: ResponsiveNumber;
     accordionFlush?: boolean;
 }
 
-export const generateClasses = (types: VariantProp = {}) => ({
+export const generateClasses = (types: VariantProp = {}): Record<string, boolean> => ({
     ["bg-" + types.bg]: !!types.bg,
     ["border-" + types.border]: !!types.border,
     ["text-" + types.text]: !!types.text,
@@ -95,6 +97,18 @@ export const generateClasses = (types: VariantProp = {}) => ({
     'accordion-flush': !!types.accordionFlush
 });
 
+/**
+ * Generate classes for an element depending on rectangular positions
+ * @param position
+ */
+export const generateRectPositionalClasses = (position: RectangularPosition): Record<string, boolean> => ({
+    "start-100 top-0": position === "top-right",
+    "start-0 top-0": position === "top-left",
+    "start-0 top-100": position === "bottom-left",
+    "start-100 top-100": position === "bottom-right",
+});
+
+
 export const isTrue = (value: any): boolean => value === true;
 export const isFalse = (value: any): boolean => value === false;
 export const isBoolean = (value: any): boolean => typeof value === 'boolean';
@@ -104,3 +118,27 @@ export const isTruthy = (value: any) => !!value;
 export const isFalsy = (value: any) => !isTrue(value);
 
 export const isNumber = (value: any): boolean => typeof value === 'number';
+
+export const isNumeric = (value: any): boolean => !isNaN(Number(value)) && (isString(value) || isNumber(value));
+
+export const uid = (() => {
+    let id = 0;
+    return () => id++;
+})();
+
+
+//doesn't work with array splice
+export function useStateModel<T extends Record<string, any>, K extends keyof T>(props: T, name: K, options?: {
+    local?: boolean;
+}) {
+    const model = useModel(props, name, options);
+    const state = ref<typeof model.value>(model.value);
+
+    return computed({
+        get: () => model.value || state.value,
+        set: (value) => {
+            model.value = value;
+            state.value = value;
+        }
+    })
+}

@@ -1,22 +1,22 @@
 import {HasLayoutCols, HasLayoutGutters, HasLayoutOrders, HasTag} from "@/composables/useCommonProps";
 import {
-    ColAlignments,
+    ColAlignment,
     JustifyContentAlignments,
-    ScreenSizes
+    ScreenSize
 } from "@/composables/useResponsive";
 
 export interface ContainerProps extends HasTag {
     fluid?: boolean;
-    size?: ScreenSizes;
+    size?: ScreenSize;
 }
 
 export interface RowProps extends HasTag, HasLayoutCols, HasLayoutGutters {
-    alignItems?: ColAlignments;
+    alignItems?: ColAlignment;
     justifyContent?: JustifyContentAlignments;
 
 }
 
 export interface ColProps extends HasTag, HasLayoutCols, HasLayoutOrders {
-    alignSelf?: ColAlignments;
+    alignSelf?: ColAlignment;
     justifyContent?: JustifyContentAlignments;
 }

@@ -1,4 +1,4 @@
-import type {ColorVariants} from "@/composables/useColorSchemes";
+import type {ColorVariant} from "@/composables/useColorSchemes";
 
 export interface AlertHeadingProps {
     tag?: keyof HTMLElementTagNameMap;
@@ -10,7 +10,7 @@ export interface AlertLinkProps {
 
 export interface AlertProps {
     tag?: keyof HTMLElementTagNameMap;
-    variant?: ColorVariants;
+    variant?: ColorVariant;
     dismissible?: boolean;
     /**
      * in seconds

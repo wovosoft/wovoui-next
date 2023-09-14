@@ -1,11 +1,11 @@
-import type {ScreenSizes} from "@/composables/useResponsive";
-import {ColorVariants} from "@/composables/useColorSchemes";
+import type {ScreenSize} from "@/composables/useResponsive";
+import {ColorVariant} from "@/composables/useColorSchemes";
 
 export interface ListGroupProps {
     tag?: keyof HTMLElementTagNameMap;
     flush?: boolean;
     numbered?: boolean;
-    horizontal?: boolean | ScreenSizes | ScreenSizes[];
+    horizontal?: boolean | ScreenSize | ScreenSize[];
 }
 
 export interface ListGroupItemProps {
@@ -14,5 +14,5 @@ export interface ListGroupItemProps {
     disabled?: boolean;
     href?: string;
     asButton?: boolean;
-    variant?: ColorVariants;
+    variant?: ColorVariant;
 }

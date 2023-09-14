@@ -1,6 +1,6 @@
 import {PropType} from "vue";
-import {HasTag, HasVariant} from "@/composables/useCommonProps";
-import {PlaceholderSizes} from "@/composables/useResponsive";
+import {HasBgVariant, HasTag, HasTextBgVariant, HasTextVariant, HasVariant} from "@/composables/useCommonProps";
+import {AspectRatio, RectangularPosition, PlaceholderSize, ResponsiveNumber} from "@/composables/useResponsive";
 
 export interface FigureProps {
     /**
@@ -56,7 +56,7 @@ export interface PlaceholderProps extends HasTag, HasVariant {
      * @default null
      * @supported 'lg' | 'sm' | 'xs'
      */
-    size?: PlaceholderSizes;
+    size?: PlaceholderSize;
 
     /**
      * Placeholder width can be set by css utility classes or inline styles
@@ -65,6 +65,54 @@ export interface PlaceholderProps extends HasTag, HasVariant {
      * @description Sets placeholder width with bootstrap supported responsive layout sizes
      * @default null
      */
-    col?: ResponsiveNumbers;
+    col?: ResponsiveNumber;
+}
 
+export interface AspectProps extends HasTag {
+    /**
+     * Any Bootstrap 5 supported ratio component's css values.
+     * The supported values are '1x1' | '4x3' | '16x9' | '21x9'
+     * @default "16x9"
+     *
+     * More Info can be found at
+     * @link https://getbootstrap.com/docs/5.2/helpers/ratio/
+     *
+     * Bootstrap Supports dynamic ratios. This component also supports dynamic ratios.
+     * Any valid numeric values will be directly used as Number%
+     * and any ratio such as MxN will be converted to (N/M*100)%.
+     * Check out more details at
+     * @link https://getbootstrap.com/docs/5.3/helpers/ratio/#aspect-ratios
+     */
+    ratio?: AspectRatio
+}
+
+export interface BadgeProps extends HasTag, HasTextVariant, HasBgVariant, HasTextBgVariant {
+    /**
+     * Generates Pill Badges
+     * @default false
+     * @link https://getbootstrap.com/docs/5.2/components/badge/#pill-badges
+     */
+    pill?: boolean;
+
+    /**
+     * When provided, the badge will be an anchor link
+     */
+    href?: string;
+
+    /**
+     * Sets position of the badge wrt. its parent,
+     * parent element should have positioned relative
+     * @supported 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+     * @link https://getbootstrap.com/docs/5.2/components/badge/#positioned
+     */
+    position?: RectangularPosition;
+
+    /**
+     * Default content for default slot
+     */
+    content?: string | number;
+}
+
+export interface VrProps extends HasTag {
+    width?: string
 }

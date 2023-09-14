@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ListGroupProps} from "@/composables/useListGroups";
 import {computed, provide} from "vue";
-import {getScreenSizes, ScreenSizes} from "@/composables/useResponsive";
+import {getScreenSizes, ScreenSize} from "@/composables/useResponsive";
 
 const props = withDefaults(defineProps<ListGroupProps>(), {
     tag: "ul",
@@ -13,7 +13,7 @@ const attrs = computed(() => {
     if (typeof props.horizontal === 'boolean' && props.horizontal) {
         horizontalClasses = ['list-group-horizontal'];
     } else if (Array.isArray(props.horizontal)) {
-        horizontalClasses = props.horizontal.map((ss: ScreenSizes) => 'list-group-horizontal-' + ss);
+        horizontalClasses = props.horizontal.map((ss: ScreenSize) => 'list-group-horizontal-' + ss);
     } else if (typeof props.horizontal === 'string' && getScreenSizes.includes(props.horizontal)) {
         horizontalClasses = ['list-group-horizontal-' + props.horizontal];
     }

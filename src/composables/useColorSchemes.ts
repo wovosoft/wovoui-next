@@ -1,7 +1,7 @@
-export type ColorVariants = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'light' | 'dark';
+export type ColorVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'light' | 'dark';
 
-export type BackgroundColors = `${'bg-' | ''}${ColorVariants}`;
-export type TextBackgroundColors = `${'text-bg-' | ''}${ColorVariants}`;
+export type BackgroundColors = `${'bg-' | ''}${ColorVariant}`;
+export type TextBackgroundColors = `${'text-bg-' | ''}${ColorVariant}`;
 
 export type TextVariants =
     'muted'
@@ -13,7 +13,7 @@ export type TextVariants =
     | 'opacity-20'
     | 'black';
 
-export const getColorVariants: ColorVariants[] = [
+export const getColorVariants: ColorVariant[] = [
     'primary',
     'secondary',
     'success',

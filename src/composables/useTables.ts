@@ -1,6 +1,7 @@
 import {HasBorderVariant, HasVariant} from "@/composables/useCommonProps";
-import {ScreenSizes, VerticalAlign} from "@/composables/useResponsive";
-import {computed} from "vue";
+import {ScreenSize, VerticalAlign} from "@/composables/useResponsive";
+import {computed, StyleValue} from "vue";
+import {ColorVariant} from "@/composables/useColorSchemes";
 
 export interface CommonTableProps extends HasVariant, HasBorderVariant {
     active?: boolean;
@@ -11,7 +12,7 @@ export interface TableProps extends CommonTableProps {
     /**
      * When set to true, the table becomes responsive. Wraps in .table-responsive
      */
-    responsive?: ScreenSizes | boolean;
+    responsive?: ScreenSize | boolean;
 
     /**
      * Makes table stripped
@@ -54,3 +55,28 @@ export const getTableCommonClasses = (props: { [key: string]: any }) => computed
     "table-active": props.active,
     ["align-" + props.align]: !!props.align
 }));
+
+export interface DatatableFieldType {
+    key: string;
+    label?: string;
+    formatter?: (value: DatatableItemType, key?: string) => any;
+    visible?: boolean;
+    sortable?: boolean;
+    thClass?: StyleValue;
+    tdClass?: StyleValue;
+}
+
+export interface DatatableItemType extends Record<string, any> {
+
+}
+
+export interface DatatableProps extends TableProps {
+    fields: DatatableFieldType[] | string[];
+    items: DatatableItemType[],
+    headVariant?: ColorVariant;
+    bodyVariant?: ColorVariant;
+    footVariant?: ColorVariant;
+    headClass?: StyleValue;
+    bodyClass?: StyleValue;
+    footClass?: StyleValue;
+}

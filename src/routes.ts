@@ -48,6 +48,30 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         component: () => import('@/pages/Tables/Index.vue'),
         meta: {title: 'Tables'},
         name: 'pages.tables.index'
+    },
+    {
+        path: '/datatables',
+        component: () => import('@/pages/Tables/Datatables.vue'),
+        meta: {title: 'Data Table'},
+        name: 'pages.tables.datatables'
+    },
+    {
+        path: '/ui/ratio',
+        component: () => import('@/pages/Ui/Ratios.vue'),
+        meta: {title: 'Ratios'},
+        name: 'pages.ui.ratios'
+    },
+    {
+        path: '/ui/badges',
+        component: () => import('@/pages/Ui/Badges.vue'),
+        meta: {title: 'Badges'},
+        name: 'pages.ui.badges'
+    },
+    {
+        path: '/dropdowns',
+        component: () => import('@/pages/Dropdowns/Index.vue'),
+        meta: {title: 'Dropdowns'},
+        name: 'pages.dropdowns.index'
     }
 ];
 

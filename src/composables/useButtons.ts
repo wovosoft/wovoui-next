@@ -1,14 +1,14 @@
-import {ColorVariants} from "@/composables/useColorSchemes";
+import {ColorVariant} from "@/composables/useColorSchemes";
 
-export type ButtonSizes = 'sm' | 'lg';
-export type ButtonTypes = 'button' | 'submit' | 'reset';
+export type BasicSize = 'sm' | 'lg';
+export type ButtonType = 'button' | 'submit' | 'reset';
 
 export interface ButtonProps {
     tag?: keyof HTMLElementTagNameMap,
     href?: string,
-    variant?: ColorVariants;
-    size?: ButtonSizes;
-    type?: ButtonTypes;
+    variant?: ColorVariant;
+    size?: BasicSize;
+    type?: ButtonType;
     outline?: boolean;
     block?: boolean;
     pill?: boolean;
@@ -25,7 +25,7 @@ export interface ButtonProps {
 export interface ButtonGroupProps {
     tag?: keyof HTMLElementTagNameMap;
     ariaLabel?: string;
-    size?: ButtonSizes;
+    size?: BasicSize;
     vertical?: boolean;
     justified?: boolean;
     outline?: boolean;
@@ -39,7 +39,7 @@ export interface ButtonToolbarProps {
 }
 
 export interface ButtonCloseProps {
-    size?: ButtonSizes;
+    size?: BasicSize;
     white?: boolean;
     ariaLabel?: string;
     disabled?: boolean;
