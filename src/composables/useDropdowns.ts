@@ -1,6 +1,9 @@
 import {HasSize, HasTag, HasVariant} from "@/composables/useCommonProps";
 import {ColorVariant} from "@/composables/useColorSchemes";
-import {Placement} from "@popperjs/core";
+import {Placement, VirtualElement} from "@popperjs/core";
+import usePopper, {PopperOptions} from "@/composables/usePopper";
+import {getCurrentInstance, nextTick, onBeforeUnmount} from "vue";
+import {isEmpty} from "lodash";
 
 export interface DropdownItemProps extends HasTag {
     href?: string;
@@ -61,3 +64,98 @@ export type DropdownAlignments =
     | "xxl-start"
     | "xxl-end"
     | Placement;
+
+export function createDropdown(
+    el: HTMLElement,
+    dropdownToggle: HTMLElement,//reference
+    dropdownMenu: HTMLElement,//popper
+    options?: PopperOptions
+) {
+    let popper = null;
+
+    const clickedOutside = (e: MouseEvent) => {
+        return (!el.contains(e.target as HTMLElement) && !el.isSameNode(e.target as HTMLElement));
+    }
+
+    const outsideClickHandler = (e: MouseEvent) => {
+        if (clickedOutside(e)) {
+            hide();
+        }
+    }
+
+    const show = () => {
+        popper = registerPopper();
+        dropdownMenu.classList.add('show');
+        document.addEventListener('click', outsideClickHandler);
+    };
+
+    const hide = () => {
+        dropdownMenu.classList.remove('show');
+        document.removeEventListener('click', outsideClickHandler);
+        destroy();
+        dropdownToggle.focus();
+    };
+
+    onBeforeUnmount(() => document.removeEventListener('click', outsideClickHandler));
+
+    const toggle = () => {
+        if (dropdownMenu.classList.contains('show')) {
+            hide();
+        } else {
+            show();
+        }
+    };
+
+    const destroy = () => popper?.destroy();
+
+    const registerPopper = () => usePopper(dropdownToggle, dropdownMenu);
+
+    const scrollIntoView = () => {
+        dropdownMenu.scrollIntoView({
+            behavior: 'auto',
+            block: 'center'
+        });
+    };
+
+    const onKeydownDown = (e: KeyboardEvent) => {
+        const list = [...dropdownMenu.querySelectorAll('.dropdown-item')] as HTMLElement[];
+        if (isEmpty(list)) {
+            return;
+        }
+
+        const activeEl = list.find(i => i.isSameNode(document.activeElement));
+
+        if (!activeEl) {
+            list[0]?.focus();
+        } else if (list.length > 1) {
+            const index = list.indexOf(activeEl);
+            if (index < list.length - 1) {
+                list[index + 1].focus();
+            }
+        }
+        scrollIntoView();
+    };
+
+    const onKeydownUp = (e) => {
+        const list = [...dropdownMenu.querySelectorAll('.dropdown-item')] as HTMLElement[];
+        if (isEmpty(list)) {
+            return;
+        }
+
+        const activeEl = list.find(i => i.isSameNode(document.activeElement));
+
+        if (!activeEl) {
+            list[list.length - 1].focus();
+        } else if (list.length > 1) {
+            const index = list.indexOf(activeEl);
+            if (index > 0) {
+                list[index - 1].focus();
+            }
+        }
+        scrollIntoView();
+    };
+
+    return {
+        show, hide, toggle, destroy, onKeydownDown, onKeydownUp
+    }
+}

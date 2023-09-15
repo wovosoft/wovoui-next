@@ -9,9 +9,9 @@ import Button from "@/components/Buttons/Button.vue";
 <template>
     <div>
         <h3>Example</h3>
-        <Dropdown text="Dropdown" style="margin-top: 400px;margin-bottom: 500px;">
-            <DropdownItem v-for="ac in getColorVariants">
-                {{ ac }} in Dropdown Item
+        <Dropdown text="Dropdown">
+            <DropdownItem v-for="i in 10">
+                Dropdown Item {{ i}}
             </DropdownItem>
         </Dropdown>
         <br/>

@@ -1,10 +1,9 @@
 <script setup lang="ts">
-
 import Button from "@/components/Buttons/Button.vue";
-import vDropdownToggle from "@/directives/vDropdownToggle";
 import DropdownMenu from "@/components/Dropdown/DropdownMenu.vue";
-import {DropdownProps} from "@/composables/useDropdowns";
-import {computed} from "vue";
+import {createDropdown, DropdownProps} from "@/composables/useDropdowns";
+import {computed, getCurrentInstance, onMounted, ref} from "vue";
+import vClickOutside from "@/directives/vClickOutside";
 
 const props = withDefaults(defineProps<DropdownProps>(), {
     tag: "div",
@@ -23,17 +22,32 @@ const classes = computed(() => ({
     "dropstart": props.dir === "left",
     "dropup": props.dir === "top",
 }));
+
+const dd = ref();
+const toggle = ref<InstanceType<typeof Button>>();
+const menu = ref<InstanceType<typeof DropdownMenu>>();
+
+onMounted(() => {
+    dd.value = createDropdown(
+        getCurrentInstance().vnode.el,
+        toggle.value?.$el,
+        menu.value.$el
+    );
+});
 </script>
 
 <template>
-    <component :is="tag" :class="classes">
+    <component
+        :is="tag"
+        :class="classes"
+        @keydown.down="()=>dd.onKeydownDown()"
+        @keydown.up="()=>dd.onKeydownUp()"
+        @keydown.esc="()=>dd.hide()">
         <Button
             v-if="split"
-            data-bs-toggle="dropdown"
             :disabled="disabled"
             :variant="splitVariant"
             :block="block"
-            v-dropdown-toggle
             :size="size">
             <slot name="button-content">
                 {{ text }}
@@ -42,22 +56,20 @@ const classes = computed(() => ({
         <!--should be nav link-->
         <a v-if="isNav"
            ref="toggle"
-           data-bs-toggle="dropdown"
-           v-dropdown-toggle
+           @click.prevent=""
            class="dropdown-toggle"
            role="button">
             {{ text }}
         </a>
         <Button
             v-else
-            data-bs-toggle="dropdown"
-            v-dropdown-toggle
             ref="toggle"
             :tag="toggleTag"
             :block="block"
             :disabled="disabled"
             :variant="variant"
             :size="size"
+            @click="()=>dd?.toggle()"
             class="dropdown-toggle"
             :class="{'dropdown-toggle-split':split}">
             <slot name="button-content">
@@ -65,7 +77,7 @@ const classes = computed(() => ({
                 <template v-else>{{ text }}</template>
             </slot>
         </Button>
-        <DropdownMenu>
+        <DropdownMenu ref="menu">
             <slot/>
         </DropdownMenu>
     </component>
