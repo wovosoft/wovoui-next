@@ -48,5 +48,13 @@ import {Col, Row} from "@/components/Layouts/index";
 				</DropdownItem>
 			</Dropdown>
 		</Col>
+        <Col style="margin-bottom: 50px;" :md="4" :sm="12">
+			<h3> Centered dropdown Big Title than menu </h3>
+			<Dropdown text="Dropdown" menu-dark centered>
+				<DropdownItem v-for="i in 10">
+					Dropdown Item {{ i }}
+				</DropdownItem>
+			</Dropdown>
+		</Col>
 	</Row>
 </template>

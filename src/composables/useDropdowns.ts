@@ -54,7 +54,7 @@ export interface DropdownProps extends HasTag, HasSize, HasVariant {
     dropstart?: boolean;
 }
 
-export type DropdownDirections = "end" | "start" | "top" | null;
+export type DropdownDirections = "end" | "start" | "top" | "bottom" | null;
 
 export type DropdownAlignments =
     "start"
