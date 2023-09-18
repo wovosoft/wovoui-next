@@ -2,8 +2,8 @@
 
 import Popper from "@/components/Poppers/Popper.vue";
 import Button from "@/components/Buttons/Button.vue";
-import DropdownMenu from "@/components/Dropdown/DropdownMenu.vue";
-import DropdownItem from "@/components/Dropdown/DropdownItem.vue";
+import DropdownMenu from "@/components/Dropdowns/DropdownMenu.vue";
+import DropdownItem from "@/components/Dropdowns/DropdownItem.vue";
 </script>
 
 <template>

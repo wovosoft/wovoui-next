@@ -1,30 +1,52 @@
 <script setup lang="ts">
 
-import Dropdown from "@/components/Dropdown/Dropdown.vue";
-import DropdownItem from "@/components/Dropdown/DropdownItem.vue";
-import {getColorVariants} from "@/composables/useColorSchemes";
-import Button from "@/components/Buttons/Button.vue";
+import Dropdown from "@/components/Dropdowns/Dropdown.vue";
+import DropdownItem from "@/components/Dropdowns/DropdownItem.vue";
+import {Col, Row} from "@/components/Layouts/index";
 </script>
 
 <template>
-    <div>
-        <h3>Example</h3>
-        <Dropdown text="Dropdown">
-            <DropdownItem v-for="i in 10">
-                Dropdown Item {{ i}}
-            </DropdownItem>
-        </Dropdown>
-        <br/>
-        <br/>
-        <div class="dropdown2">
-            <button class="btn btn-secondary dropdown-toggle"   data-bs-toggle="dropdown" type="button" aria-expanded="false">
-                Dropdown button
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-        </div>
-    </div>
+	<Row>
+		<Col style="margin-bottom: 50px;" :md="4" :sm="12">
+			<h3>Single Button</h3>
+			<Dropdown text="Dropdown">
+				<DropdownItem v-for="i in 10">
+					Dropdown Item {{ i }}
+				</DropdownItem>
+			</Dropdown>
+		</Col>
+		<Col style="margin-bottom: 50px;" :md="4" :sm="12">
+			<h3>Split Button</h3>
+			<Dropdown text="Dropdown" split>
+				<DropdownItem v-for="i in 10">
+					Dropdown Item {{ i }}
+				</DropdownItem>
+			</Dropdown>
+		</Col>
+		<Col style="margin-bottom: 50px;" :md="4" :sm="12">
+			<h3>Sizing (lg)</h3>
+			<Dropdown text="Dropdown" size="lg">
+				<DropdownItem v-for="i in 10">
+					Dropdown Item {{ i }}
+				</DropdownItem>
+			</Dropdown>
+		</Col>
+		
+		<Col style="margin-bottom: 50px;" :md="4" :sm="12">
+			<h3>Sizing (sm)</h3>
+			<Dropdown text="Dropdown" size="sm">
+				<DropdownItem v-for="i in 10">
+					Dropdown Item {{ i }}
+				</DropdownItem>
+			</Dropdown>
+		</Col>
+		<Col style="margin-bottom: 50px;" :md="4" :sm="12">
+			<h3>Dark dropdowns </h3>
+			<Dropdown text="Dropdown" menu-dark>
+				<DropdownItem v-for="i in 10">
+					Dropdown Item {{ i }}
+				</DropdownItem>
+			</Dropdown>
+		</Col>
+	</Row>
 </template>

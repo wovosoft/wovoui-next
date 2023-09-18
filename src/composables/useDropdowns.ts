@@ -1,8 +1,8 @@
 import {HasSize, HasTag, HasVariant} from "@/composables/useCommonProps";
 import {ColorVariant} from "@/composables/useColorSchemes";
-import {Placement, VirtualElement} from "@popperjs/core";
+import {Placement} from "@popperjs/core";
 import usePopper, {PopperOptions} from "@/composables/usePopper";
-import {getCurrentInstance, nextTick, onBeforeUnmount} from "vue";
+import {onBeforeUnmount, StyleValue} from "vue";
 import {isEmpty} from "lodash";
 
 export interface DropdownItemProps extends HasTag {
@@ -30,28 +30,34 @@ export interface DropdownMenuProps extends HasTag {
 }
 
 export interface DropdownProps extends HasTag, HasSize, HasVariant {
-    menuTag?: keyof HTMLElementTagNameMap,
-    toggleTag?: keyof HTMLElementTagNameMap,
+    menuTag?: keyof HTMLElementTagNameMap;
+    toggleTag?: keyof HTMLElementTagNameMap;
 
-    text?: string | null,
-    splitVariant?: ColorVariant,
-    block?: boolean,
-    disabled?: boolean,
+    text?: string | null;
+    splitVariant?: ColorVariant;
+    block?: boolean;
+    disabled?: boolean;
     /**
      * left,right,up, down=null (default)
      */
-    dir?: DropdownDirections | null,
-    align?: DropdownAlignments,
-    menuDark?: boolean,
-    menuClass?: string | object | any[] | null,
+    dir?: DropdownDirections | null;
+    align?: DropdownAlignments;
+    menuDark?: boolean;
+    menuClass?: StyleValue;
 
-    split?: boolean,
-    isNav?: boolean,
+    split?: boolean;
+    isNav?: boolean;
+
+    centered?: boolean;
+    dropup?: boolean;
+    dropend?: boolean;
+    dropstart?: boolean;
 }
 
-export type DropdownDirections = "right" | "left" | "top" | "bottom" | null;
+export type DropdownDirections = "end" | "start" | "top" | null;
+
 export type DropdownAlignments =
-    | "start"
+    "start"
     | "end"
     | "sm-start"
     | "sm-end"
@@ -73,15 +79,13 @@ export function createDropdown(
 ) {
     let popper = null;
 
-    const clickedOutside = (e: MouseEvent) => {
-        return (!el.contains(e.target as HTMLElement) && !el.isSameNode(e.target as HTMLElement));
-    }
+    const isClickedOutside = (e: MouseEvent): boolean => (!el.contains(e.target as HTMLElement) && !el.isSameNode(e.target as HTMLElement));
 
     const outsideClickHandler = (e: MouseEvent) => {
-        if (clickedOutside(e)) {
+        if (isClickedOutside(e)) {
             hide();
         }
-    }
+    };
 
     const show = () => {
         popper = registerPopper();
@@ -108,7 +112,7 @@ export function createDropdown(
 
     const destroy = () => popper?.destroy();
 
-    const registerPopper = () => usePopper(dropdownToggle, dropdownMenu);
+    const registerPopper = () => usePopper(dropdownToggle, dropdownMenu, options);
 
     const scrollIntoView = () => {
         dropdownMenu.scrollIntoView({
@@ -156,6 +160,11 @@ export function createDropdown(
     };
 
     return {
-        show, hide, toggle, destroy, onKeydownDown, onKeydownUp
+        show,
+        hide,
+        toggle,
+        destroy,
+        onKeydownDown,
+        onKeydownUp
     }
 }
