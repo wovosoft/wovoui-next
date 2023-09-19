@@ -37,10 +37,7 @@ export interface DropdownProps extends HasTag, HasSize, HasVariant {
     splitVariant?: ColorVariant;
     block?: boolean;
     disabled?: boolean;
-    /**
-     * left,right,up, down=null (default)
-     */
-    dir?: DropdownDirections | null;
+
     align?: DropdownAlignments;
     menuDark?: boolean;
     menuClass?: StyleValue;
@@ -48,13 +45,17 @@ export interface DropdownProps extends HasTag, HasSize, HasVariant {
     split?: boolean;
     isNav?: boolean;
 
+    asGroup?: boolean;
     centered?: boolean;
+
+    dropupCentered?: boolean;
+    dropdownCentered?: boolean;
     dropup?: boolean;
     dropend?: boolean;
     dropstart?: boolean;
 }
 
-export type DropdownDirections = "end" | "start" | "top" | "bottom" | null;
+export type DropdownDirections = "dropup" | "dropstart" | "dropend" | "dropup-center" | null;
 
 export type DropdownAlignments =
     "start"
