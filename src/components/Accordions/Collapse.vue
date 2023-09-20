@@ -1,102 +1,98 @@
 <script setup lang="ts">
 import {CollapseProps} from "@/composables/useAccordions";
-import {computed, getCurrentInstance, getCurrentScope, onMounted, reactive, ref} from "vue";
+import {computed, getCurrentInstance, nextTick, reactive, useModel, watch} from "vue";
+import {getTransitionDurationFromElement, reflow} from "@/composables/useHelpers";
 
 const props = withDefaults(defineProps<CollapseProps>(), {
-	tag: 'div'
+    tag: 'div',
+    modelValue: false,
 });
 
+const instanceVNode = getCurrentInstance().vnode;
+
 const emit = defineEmits<{
-	show: [value: any];
-	showing: [value: any];
-	shown: [value: any];
-	hide: [value: any];
-	hiding: [value: any];
-	hidden: [value: any];
+    show: [value: any];
+    shown: [value: any];
+    hide: [value: any];
+    hidden: [value: any];
+    'update:modelValue': [value: boolean]
 }>();
 
+const isShown = useModel(props, 'modelValue');
 
 const states = reactive({
-	collapse: true,
-	collapsing: false,
-	show: props.show,
-	shown: props.show
+    transitioning: false,
+    show: props.show,
+    shown: props.show,
 });
 
 const classes = computed(() => [
-	{
-		'collapse': states.collapse,
-		'collapse-horizontal': props.horizontal,
-		'collapsing': states.collapsing,
-		'show': states.show,
-	}
+    {
+        'collapse': !states.transitioning,
+        'collapsing': states.transitioning,
+        'collapse-horizontal': props.horizontal,
+        'show': states.show,
+    }
 ]);
 
-const theRoot = ref();
+const durationPadding = 5;
 
-const show = () => {
-	if (states.collapsing || states.shown) {
-		return;
-	}
-	
-	//trigger show when operation is about to be started
-	emit('show', true);
-	
-	//https://github.com/twbs/bootstrap/blob/d9baa2f3a9707e00c6773f637a9df7b3d1795aad/js/src/collapse.js#L140C56-L140C56
-	
-	const dimensionAttribute = getDimensionAttribute();
-	
-	states.collapse = false;
-	states.collapsing = true;
-	emit('showing', true);      //transition started
-	
-	console.log(dimensionAttribute)
-	
-	theRoot.value.style[dimensionAttribute] = 0;
-	
-	setTimeout(() => {
-		states.collapsing = false;
-		states.show = true;
-		states.collapse = true;
-		states.shown = true    //transition completed
-	}, 350);
-};
+//apply after effects, it's after effects because the value is already changed
+/**
+ * when direct show,hide,toggle methods are used by refs from outside,
+ * first the animation is happened, and then the value is changed.
+ * But if v-model is used, first the value is changed and then the animation is happened.
+ */
+watch(isShown, value => animate(value));
 
-const hide = () => {
-	if (states.collapsing || !states.shown) {
-		return;
-	}
-	
-	emit('hide', true);
-	states.collapsing = true;
-	emit('hiding', true);
-	
-	setTimeout(() => {
-		states.shown = true;
-		emit('hidden', true);
-	}, 350);
-};
+const animate = (shouldShow: boolean) => {
+    if (states.transitioning || shouldShow ? states.shown : !states.shown) {
+        return;
+    }
 
-const toggle = () => {
-	if (states.shown) {
-		hide();
-	} else {
-		show();
-	}
+    //@ts-ignore
+    emit(shouldShow ? 'show' : 'hide', true);
+    instanceVNode.el.style[getDim()] = getDimSize();
+    states.transitioning = true;
+
+    if (!shouldShow) {
+        reflow(instanceVNode.el as HTMLElement);
+        states.show = false;
+    }
+
+    nextTick(() => {
+        instanceVNode.el.style[getDim()] = shouldShow ? getDimSize() : '';
+
+        setTimeout(() => {
+            instanceVNode.el.style[getDim()] = '';
+
+            states.transitioning = false;
+            states.shown = shouldShow;
+            states.show = shouldShow;
+            isShown.value = shouldShow;
+            //@ts-ignore
+            emit(shouldShow ? 'shown' : 'hidden', true);
+        }, getTransitionDurationFromElement(instanceVNode.el as HTMLElement) + durationPadding);
+    });
 };
 
 defineExpose({
-	show, hide, toggle
+    show: () => animate(true),
+    hide: () => animate(false),
+    toggle: () => animate(!states.shown)
 });
 
-const getDimension = () => {
-	return theRoot.value.getBoundingClientRect()[getDimensionAttribute()] + 'px';
-};
-const getDimensionAttribute = () => props.horizontal ? 'width' : 'height';
-</script>
+const ucFirst = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
+const getDim = () => props.horizontal ? 'width' : 'height';
 
+const getDimSize = () => instanceVNode.el['scroll' + ucFirst(getDim())] + 'px';
+// const getDimSize = () => instanceVNode.el.getBoundingClientRect()['scroll' + ucFirst(getDim())] + 'px';
+</script>
 <template>
-	<component :is="tag" :class="classes" ref="theRoot">
-		<slot></slot>
-	</component>
+    <component :is="tag" :class="classes">
+        <div v-if="horizontal" :style="{width:width}">
+            <slot></slot>
+        </div>
+        <slot v-else></slot>
+    </component>
 </template>

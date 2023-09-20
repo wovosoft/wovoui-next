@@ -20,4 +20,6 @@ export interface AccordionItemProps extends HasTag {
 export interface CollapseProps extends HasTag {
     horizontal?: boolean;
     show?: boolean;
+    modelValue?: boolean;
+    width?: string;
 }

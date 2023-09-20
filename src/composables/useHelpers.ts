@@ -38,7 +38,15 @@ export const triggerTransitionEnd = (element: Element) => {
     element.dispatchEvent(new Event(TRANSITION_END))
 }
 
-export const executeAfterTransition = (callback: () => any, transitionElement: Element, waitForTransition: boolean = true) => {
+/**
+ * @link https://github.com/twbs/bootstrap/blob/d9baa2f3a9707e00c6773f637a9df7b3d1795aad/js/src/util/index.js#L167
+ * @link https://www.harrytheo.com/blog/2021/02/restart-a-css-animation-with-javascript/
+ * @param element
+ */
+//@ts-ignore
+export const reflow = (element: Element | HTMLElement) => element.offsetHeight
+
+export const executeAfterTransition = (callback: () => any, transitionElement: Element | HTMLElement, waitForTransition: boolean = true) => {
     if (!waitForTransition) {
         callback();
         return
