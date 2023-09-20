@@ -13,6 +13,9 @@ export interface InputProps {
     plain?: boolean;
     state?: boolean;
     modelValue?: number | string | null;
+    //required for FormGroup's floating label, so handling it specially
+    //https://getbootstrap.com/docs/5.3/forms/floating-labels/#example
+    placeholder?: string;
 }
 
 export interface InputGroupProps extends HasTag, HasSize {
@@ -53,7 +56,8 @@ export interface FeedbackProps extends HasTag {
 export const getFeedbackTypes = ['valid', 'invalid'] as const;
 export type FeedbackType = typeof getFeedbackTypes[number];
 
-export interface FeedbackMessagesProps extends Partial<Record<FeedbackType, string>> {
+
+export interface FeedbackMessagesProps extends /* @vue-ignore */ Partial<Record<FeedbackType, string>> {
 
 }
 
@@ -146,4 +150,7 @@ export interface TagsProps extends HasTag {
 
 export interface TextareaProps extends HasSize {
     modelValue?: string;
+    //required for FormGroup's floating label, so handling it specially
+    //https://getbootstrap.com/docs/5.3/forms/floating-labels/#example
+    placeholder?: string;
 }

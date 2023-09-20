@@ -72,6 +72,24 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         component: () => import('@/pages/Dropdowns/Index.vue'),
         meta: {title: 'Dropdowns'},
         name: 'pages.dropdowns.index'
+    },
+    {
+        path: '/forms',
+        component: () => import('@/pages/Forms/Index.vue'),
+        meta: {title: 'Forms'},
+        name: 'pages.forms.index'
+    },
+    {
+        path: '/forms/autocompletes',
+        component: () => import('@/pages/Forms/Autocompletes.vue'),
+        meta: {title: 'Autocompletes'},
+        name: 'pages.forms.autocompletes'
+    },
+    {
+        path: '/accordions',
+        component: () => import('@/pages/Accordions/Index.vue'),
+        meta: {title: 'Accordions'},
+        name: 'pages.accordions.index'
     }
 ];
 

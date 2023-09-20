@@ -1,10 +1,10 @@
-import {HasSize, HasTag, HasVariant} from "@/composables/useCommonProps";
-import {ColorVariant} from "@/composables/useColorSchemes";
-import {Placement} from "@popperjs/core";
-import usePopper, {PopperOptions} from "@/composables/usePopper";
-import {onBeforeUnmount, StyleValue} from "vue";
-import {isEmpty} from "lodash";
-import {ComputedPlacement} from "@popperjs/core/lib/enums";
+import { HasSize, HasTag, HasVariant } from "@/composables/useCommonProps";
+import { ColorVariant } from "@/composables/useColorSchemes";
+import { Placement } from "@popperjs/core";
+import usePopper, { PopperOptions } from "@/composables/usePopper";
+import { onBeforeUnmount, StyleValue } from "vue";
+import { isEmpty } from "lodash";
+import { ComputedPlacement } from "@popperjs/core/lib/enums";
 
 export interface DropdownItemProps extends HasTag {
     href?: string;
@@ -54,10 +54,15 @@ export interface DropdownProps extends HasTag, HasSize, HasVariant {
     modelValue?: boolean;
 }
 
-export type DropdownDirection = "start" | "end" | "top" | "bottom";
+export const dropdownDirections = ["start", "end", "top", "bottom"] as const;
+export type DropdownDirection = typeof dropdownDirections[number];
 
-export type DropdownAlignment = "start" | "end" | "center";
-export type DropdownDropDir = "dropdown" | "dropup" | "dropstart" | "dropend";
+export const dropdownAlignments = ["start", "end", "center"] as const;
+export type DropdownAlignment = typeof dropdownAlignments[number];
+
+export const dropdownDropDirections = ["dropdown", "dropup", "dropstart", "dropend"] as const;
+export type DropdownDropDir = typeof dropdownDropDirections[number];
+
 export type DropdownMenuAlignment = "start"
     | "end"
     | "sm-start"
@@ -100,13 +105,27 @@ export const directionMap: Record<DropdownDirection, DropdownDropDir> = {
     bottom: "dropdown"
 };
 
+export interface DropdownInterface {
+    show: () => void,
+    hide: () => void,
+    toggle: () => void,
+    destroy: () => void,
+    onKeydownDown: (e: KeyboardEvent) => void,
+    onKeydownUp: (e: KeyboardEvent) => void
+}
+
+export interface DropdownOptionsInterface {
+    focusToggleOnHide: boolean;
+}
+
 export function createDropdown(
-    el: HTMLElement,
+    el: HTMLElement | Element,
     dropdownToggle?: HTMLElement | null,//reference
     dropdownMenu?: HTMLElement | null,//popper
     options?: PopperOptions,
-    emit?: (event: 'show' | 'shown' | 'hide' | 'hidden' | 'update:modelValue', value: boolean) => void
-) {
+    emit?: (event: 'show' | 'shown' | 'hide' | 'hidden' | 'update:modelValue' | 'update:isShown', value: boolean) => void,
+    dropdownOptions: DropdownOptionsInterface = { focusToggleOnHide: true }
+): DropdownInterface {
     if (!dropdownToggle) {
         dropdownToggle = el.querySelector('.dropdown-toggle');
     }
@@ -125,7 +144,7 @@ export function createDropdown(
     };
 
     const show = () => {
-        emit('show', true);
+        emit?.('show', true);
 
         popper = registerPopper();
 
@@ -134,22 +153,25 @@ export function createDropdown(
         dropdownMenu.classList.add('show');
         dropdownToggle.classList.add('show');
 
-        emit('shown', true);
-        emit('update:modelValue', true);
+        emit?.('shown', true);
+        emit?.('update:isShown', true);
         document.addEventListener('click', outsideClickHandler);
     };
 
     const hide = () => {
-        emit('hide', true);
+        emit?.('hide', true);
         dropdownToggle.setAttribute('aria-expanded', 'false');
         dropdownMenu.classList.remove('show');
         dropdownToggle.classList.remove('show');
-        emit('hidden', true);
-        emit('update:modelValue', false);
+        emit?.('hidden', true);
+        emit?.('update:isShown', false);
 
         document.removeEventListener('click', outsideClickHandler);
         destroy();
-        dropdownToggle.focus();
+
+        if (dropdownOptions?.focusToggleOnHide) {
+            dropdownToggle.focus();
+        }
     };
 
     onBeforeUnmount(() => document.removeEventListener('click', outsideClickHandler));
