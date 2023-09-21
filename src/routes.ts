@@ -8,6 +8,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         name: 'pages.index'
     },
     {
+        path: '/accordions',
+        component: () => import('@/pages/Accordions/Index.vue'),
+        meta: {title: 'Accordions'},
+        name: 'pages.accordions.index'
+    },
+    {
         path: '/alerts',
         component: () => import('@/pages/Alerts/Index.vue'),
         meta: {title: 'Alerts'},
@@ -36,6 +42,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         component: () => import('@/pages/Cards/Index.vue'),
         meta: {title: 'Cards'},
         name: 'pages.cards.index'
+    },
+    {
+        path: '/carousels',
+        component: () => import('@/pages/Caousels/Index.vue'),
+        meta: {title: 'Caousels'},
+        name: 'pages.caousels.index'
     },
     {
         path: '/list-groups',
@@ -85,12 +97,6 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         meta: {title: 'Autocompletes'},
         name: 'pages.forms.autocompletes'
     },
-    {
-        path: '/accordions',
-        component: () => import('@/pages/Accordions/Index.vue'),
-        meta: {title: 'Accordions'},
-        name: 'pages.accordions.index'
-    }
 ];
 
 export default createRouter({
