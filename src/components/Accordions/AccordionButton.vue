@@ -2,7 +2,8 @@
 import {AccordionButtonProps} from "@/composables/useAccordions";
 
 withDefaults(defineProps<AccordionButtonProps>(), {
-	type: 'button'
+	type: 'button',
+	collapsed: true,
 });
 </script>
 
