@@ -23,4 +23,8 @@ export interface CarouselProps extends HasTag {
     modelValue?: number;
     fade?: boolean;
     dark?: boolean;
+    slide?: boolean;
+    indicators?: boolean;
+    controls?: boolean;
+    timeout?: number;
 }

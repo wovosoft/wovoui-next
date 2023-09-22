@@ -3,77 +3,102 @@
 import CarouselInner from "@/components/Carousels/CarouselInner.vue";
 import CarouselControl from "@/components/Carousels/CarouselControl.vue";
 import CarouselIndicators from "@/components/Carousels/CarouselIndicators.vue";
-import {computed, onMounted, provide, Ref, ref, unref, useModel} from "vue";
+import {computed, onMounted, provide, Ref, ref, useModel} from "vue";
 import CarouselIndicatorButton from "@/components/Carousels/CarouselIndicatorButton.vue";
 import {CarouselProps} from "@/composables/useCarousels";
 
+type DirectionType = 'start' | 'end';
+
 const props = withDefaults(defineProps<CarouselProps>(), {
-    tag: 'div'
+    tag: 'div',
+    slide: true,
+    indicators: true,
+    controls: true
 });
 
 /**
  * @description States of the items
  */
 
-const items = ref<Ref<boolean>[]>([]);
+const slideStates = ref<Ref<boolean>[]>([]);
 
 /**
  * Register an item
  * Returns index of the item in items array
  * @param item
  */
-const registerItem = (item: Ref<boolean>): number => {
-    const index = (items.value.push(item) - 1);
 
-    if (item.value) {
-        currentItem.value = index;
-    }
+provide("registerItem", (item: Ref<boolean>): number => slideStates.value.push(item));
 
-    return index;
+const activeItem = useModel(props, "modelValue", {local: true});
+const setActiveItem = (index: number) => {
+    const item = slideStates.value[index];
+    item.value = true;
+    activeItem.value = index;
 };
 
-provide("registerItem", registerItem);
-
-const currentItem = useModel(props, "modelValue", {local: true});
-
-const direction = ref<'next' | 'prev'>("next");
-provide('direction', direction);
-
-
+//if no active item is set, set the first item as active
 onMounted(() => {
-    //if no active item is set, set the first item as active
-    if (!items.value.find((item, index) => item.value)) {
-        items.value[0].value = true;
+    const findActiveItem = slideStates.value.find((item, index) => item.value);
+    if (!findActiveItem) {
+        setActiveItem(0);
+    } else {
+        setActiveItem(slideStates.value.indexOf(findActiveItem));
     }
 });
 
-const showItem = (item: number | Ref<boolean>) => {
+const direction = ref<DirectionType>("start");
+
+provide('direction', direction);
+
+const isSliding = ref<boolean>(false);
+provide('isSliding', isSliding);
+
+const showItem = (item: number | Ref<boolean>, dir?: DirectionType) => {
+    if (isSliding.value) {
+        return;
+    }
+
     let nextItem: Ref<boolean>;
+    const prevItem = slideStates.value[activeItem.value];
+
     if (typeof item === 'number') {
-        if (item < 0 || item >= items.value.length) {
+        if (item < 0 || item >= slideStates.value.length) {
             throw new Error("Invalid Index");
         }
 
-        nextItem = items.value[item];
+        nextItem = slideStates.value[item];
     } else {
         nextItem = item;
     }
 
-    const prevItem = items.value[currentItem.value];
+    if (activeItem.value === slideStates.value.indexOf(nextItem)) {
+        return;
+    }
 
-    //find direction
-    direction.value = items.value.indexOf(nextItem) > items.value.indexOf(prevItem) ? "next" : "prev";
-    nextItem.value = true;
+    if (dir) {
+        direction.value = dir;
+    } else {
+        const prevIndex = slideStates.value.indexOf(prevItem);
+        const nextIndex = slideStates.value.indexOf(nextItem);
+
+        direction.value = nextIndex > prevIndex ? "end" : "start";
+    }
+
     prevItem.value = false;
-    currentItem.value = items.value.indexOf(nextItem);
+    setActiveItem(slideStates.value.indexOf(nextItem));
 };
 
 
 const nextClicked = () => {
-
+    const index = (activeItem.value === slideStates.value.length - 1) ? 0 : activeItem.value + 1;
+    showItem(index, 'end');
 };
-const prevClicked = () => {
 
+const prevClicked = () => {
+    const index = activeItem.value === 0 ? slideStates.value.length - 1 : activeItem.value - 1;
+
+    showItem(index, 'start');
 };
 
 const classes = computed(() => [
@@ -88,20 +113,22 @@ const classes = computed(() => [
 
 <template>
     <component :is="tag" :class="classes">
-        <CarouselIndicators>
+        <CarouselIndicators v-if="indicators">
             <CarouselIndicatorButton
-                v-for="(item, index) in items"
+                v-for="(item, index) in slideStates"
                 :key="index"
                 :index="index"
                 :aria-label="'Slide ' + (index + 1)"
-                :active="index === currentItem"
+                :active="index === activeItem"
                 @click="showItem(index)"
             />
         </CarouselIndicators>
         <CarouselInner>
             <slot/>
         </CarouselInner>
-        <CarouselControl type="prev"/>
-        <CarouselControl type="next"/>
+        <template v-if="controls">
+            <CarouselControl @click="prevClicked" type="prev"/>
+            <CarouselControl @click="nextClicked" type="next"/>
+        </template>
     </component>
 </template>
