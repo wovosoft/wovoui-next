@@ -25,11 +25,11 @@ const emit = defineEmits<{
 }>();
 
 const rootEl = ref<HTMLElement>(null);
-const {show, hide, close, isShown, isTransitioning} = useModals(emit, rootEl);
+const {show, hide, close, states} = useModals(emit, rootEl);
 
 const attrs = computed(() => ({
-	ariaModal: isShown.value ? true : null,
-	ariaHidden: !isShown.value ? true : null,
+	ariaModal: states.shown ? true : null,
+	ariaHidden: !states.shown ? true : null,
 	role: 'dialog',
 	tabIndex: -1,
 	class: {
@@ -76,6 +76,6 @@ defineExpose({
 				</ModalContent>
 			</ModalDialog>
 		</component>
-		<ModalBackdrop v-if="isShown"/>
+		<ModalBackdrop v-if="states.shown" :show="states.backdrop"/>
 	</teleport>
 </template>

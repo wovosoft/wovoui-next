@@ -1,7 +1,7 @@
 import {HasSize, HasTag, HasVariant} from "@/composables/useCommonProps";
 import {ModalFullScreen, ModalSizes} from "@/components/Modals";
 import {ColorVariant} from "@/composables/useColorSchemes";
-import {Ref, ref} from "vue";
+import {reactive, Ref, ref} from "vue";
 import {BasicSize} from "@/composables/useButtons";
 import {getTransitionDurationFromElement, useTimeout} from "@/composables/useHelpers";
 
@@ -84,21 +84,25 @@ export default function (emit: (event: 'show' | 'hide' | 'shown' | 'hidden' | 'o
     const initialState = {
         scrollWidth: 0,
         paddingRight: null,
-        overflow: ''
+        overflow: '',
     };
+    const states = reactive({
+        shown: false,
+        transitioning: false,
+        backdrop: false,
+    });
 
-    const isShown = ref<boolean>(false);
-    const isTransitioning = ref<boolean>(false);
 
     const timers = useTimeout();
     let timer = null;
     const show = () => {
-        if (isShown.value || isTransitioning.value) {
+        if (states.shown || states.transitioning) {
             return;
         }
 
-        isShown.value = true;
-        isTransitioning.value = true;
+        states.shown = true;
+        states.transitioning = true;
+        states.backdrop = true;
 
 
         //emit show event
@@ -121,39 +125,44 @@ export default function (emit: (event: 'show' | 'hide' | 'shown' | 'hidden' | 'o
         }, 0);
 
         timers.run(() => {
-            isTransitioning.value = false;
+            states.transitioning = false;
         }, getTransitionDurationFromElement(rootEl.value.querySelector('.modal-dialog')));
     };
 
 
-    const reset = () => {
-        //reset modal
-        rootEl.value.style.display = 'none';
-        document.body.classList.remove('modal-open');
-
-        //reset scrollbar
-        const element = document.body;
-        element.style.overflow = initialState.overflow;
-        if (initialState.paddingRight) {
-            element.style.paddingRight = initialState.paddingRight + 'px';
-        } else {
-            element.style.paddingRight = '';
-        }
-        isTransitioning.value = false;
-    };
-
     const hide = () => {
-        if (!isShown.value || isTransitioning.value) {
+        if (!states.shown || states.transitioning) {
             return;
         }
 
-        isShown.value = false;
-        isTransitioning.value = true;
+        states.shown = false;
+        states.transitioning = true;
 
         rootEl.value.classList.remove('show');
-
-        timers.run(() => reset(), getTransitionDurationFromElement(rootEl.value.querySelector('.modal-dialog')));
+        if (states.backdrop) {
+            resetAdjustments();
+        }
     };
+
+    const resetAdjustments = () => {
+        //reset modal
+        rootEl.value.style.display = 'none';
+        states.transitioning = false;
+
+        document.body.classList.remove('modal-open');
+
+        //reset scrollbar
+        document.body.style.overflow = initialState.overflow;
+
+        if (initialState.paddingRight) {
+            document.body.style.paddingRight = initialState.paddingRight + 'px';
+        } else {
+            document.body.style.paddingRight = '';
+        }
+
+        states.backdrop = false;
+    };
+
     const close = () => {
 
     };
@@ -187,8 +196,7 @@ export default function (emit: (event: 'show' | 'hide' | 'shown' | 'hidden' | 'o
         close,
         toggle,
         hideScrollbar,
-        isShown,
-        isTransitioning
+        states,
     };
 };
 
