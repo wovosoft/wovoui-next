@@ -12,8 +12,8 @@ type DirectionType = 'start' | 'end';
 const props = withDefaults(defineProps<CarouselProps>(), {
     tag: 'div',
     slide: true,
-    indicators: true,
-    controls: true
+    indicators: false,
+    controls: false
 });
 
 /**

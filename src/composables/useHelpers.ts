@@ -1,7 +1,7 @@
 import {ColorVariant, TextVariants} from "@/composables/useColorSchemes";
 import {PlaceholderSize, RectangularPosition, ResponsiveNumber} from "@/composables/useResponsive";
 import {isString} from "lodash";
-import {computed, ref, useModel} from "vue";
+import {computed, onBeforeUnmount, ref, useModel} from "vue";
 
 export const MAX_UID = 1_000_000
 export const MILLISECONDS_MULTIPLIER = 1000
@@ -150,3 +150,49 @@ export function useStateModel<T extends Record<string, any>, K extends keyof T>(
         }
     })
 }
+
+/**
+ * This composable needs improvement to track handlers
+ * for example in a loop if same setTimeout is again attached,
+ * only that one should be replaced
+ */
+export function useTimeout() {
+    const timers = ref<number[]>([]);
+
+    const run = (handler: TimerHandler, duration: number) => {
+        const timer: number = setTimeout(handler, duration);
+        timers.value.push(timer);
+        return timer;
+    };
+
+    const clear = (timer?: number) => {
+        if (timer) {
+            clearTimeout(timer);
+        }
+        timers.value.forEach((timer: number) => {
+            clearTimeout(timer);
+        });
+    };
+
+    onBeforeUnmount(() => clear());
+
+    return {
+        timers,
+        run,
+        clear
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

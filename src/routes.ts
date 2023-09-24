@@ -97,6 +97,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         meta: {title: 'Autocompletes'},
         name: 'pages.forms.autocompletes'
     },
+    {
+        path: '/modals',
+        component: () => import('@/pages/Modals/Index.vue'),
+        meta: {title: 'Modals'},
+        name: 'pages.modals.index'
+    },
 ];
 
 export default createRouter({
