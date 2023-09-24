@@ -1,7 +1,7 @@
 import {ColorVariant, TextVariants} from "@/composables/useColorSchemes";
 import {PlaceholderSize, RectangularPosition, ResponsiveNumber} from "@/composables/useResponsive";
 import {isString} from "lodash";
-import {computed, onBeforeUnmount, ref, useModel} from "vue";
+import {computed, onBeforeUnmount, onUpdated, ref, useModel} from "vue";
 
 export const MAX_UID = 1_000_000
 export const MILLISECONDS_MULTIPLIER = 1000
@@ -46,14 +46,16 @@ export const triggerTransitionEnd = (element: Element) => {
 //@ts-ignore
 export const reflow = (element: Element | HTMLElement) => element.offsetHeight
 
+export const PADDING_DURATION = 5;
+
 export const executeAfterTransition = (callback: () => any, transitionElement: Element | HTMLElement, waitForTransition: boolean = true) => {
     if (!waitForTransition) {
         callback();
         return
     }
 
-    const durationPadding = 5
-    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding
+
+    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + PADDING_DURATION
 
     let called = false
 
@@ -183,6 +185,29 @@ export function useTimeout() {
     }
 }
 
+export function eventBinder() {
+    const bindings = ref<(() => void)[]>([]);
+
+    const bind = (element: HTMLElement | Document, event: keyof DocumentEventMap, handler: EventListenerOrEventListenerObject) => {
+        element.addEventListener(event, handler);
+        const removeListener = () => element.removeEventListener(event, handler);
+        bindings.value.push(removeListener);
+        return removeListener;
+    };
+
+    const clear = () => {
+        bindings.value.forEach((removeListener) => removeListener());
+    }
+    onBeforeUnmount(() => {
+        clear();
+    });
+
+    return {
+        bind,
+        bindings,
+        clear
+    }
+}
 
 
 

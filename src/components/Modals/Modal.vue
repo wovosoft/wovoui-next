@@ -10,72 +10,99 @@ import ModalTitle from "@/components/Modals/ModalTitle.vue";
 import ButtonClose from "@/components/Buttons/ButtonClose.vue";
 import {computed, ref} from "vue";
 import ModalBackdrop from "@/components/Modals/ModalBackdrop.vue";
+import vClickOutside from "@/directives/vClickOutside";
 
 const props = withDefaults(defineProps<ModalProps>(), {
-	tag: 'div'
+    tag: 'div',
+    okTitle: 'Ok',
+    closeTitle: 'Close'
 });
 
 const emit = defineEmits<{
-	close: [value: boolean];
-	ok: [value: boolean];
-	show: [value: boolean];
-	hide: [value: boolean];
-	shown: [value: boolean];
-	hidden: [value: boolean];
+    close: [value: boolean];
+    ok: [value: boolean];
+    show: [value: boolean];
+    hide: [value: boolean];
+    shown: [value: boolean];
+    hidden: [value: boolean];
+    clickOutside: [value: boolean];
 }>();
 
 const rootEl = ref<HTMLElement>(null);
-const {show, hide, close, states} = useModals(emit, rootEl);
+const {
+    states,
+    show,
+    hide,
+    onEsc,
+    onOk,
+    onClose,
+    toggle,
+    setBodyAttributes,
+    resetBodyAttributes,
+} = useModals(emit, rootEl, props);
+
+const onClickOutside = () => {
+    console.log('click outside')
+    if (props.static) {
+        return;
+    }
+    hide();
+};
 
 const attrs = computed(() => ({
-	ariaModal: states.shown ? true : null,
-	ariaHidden: !states.shown ? true : null,
-	role: 'dialog',
-	tabIndex: -1,
-	class: {
-		'modal': true,
-		'fade': !props.noFade,
-		// show: isShown.value
-	},
-	// style: {
-	// 	display: isShown.value ? 'block' : 'none'
-	// }
+    ariaModal: states.shown ? true : null,
+    ariaHidden: !states.shown ? true : null,
+    role: states.shown ? 'dialog' : null,
+    tabIndex: -1,
+    class: {
+        'modal': true,
+        'fade': !props.noFade,
+        show: states.show,
+        'modal-static': states.static
+    },
+    style: {
+        display: states.styleBlock ? 'block' : 'none',
+        overflowY: states.static ? 'hidden' : null
+    }
 }));
 
+
 defineExpose({
-	show,
-	hide,
-	close
+    show,
+    hide
 });
 </script>
 
 <template>
-	<teleport to="body">
-		<component :is="tag" v-bind="attrs" ref="rootEl">
-			<ModalDialog>
-				<ModalContent>
-					<ModalHeader>
-						<slot name="header">
-							<ModalTitle>
-								{{ header?.text }}
-							</ModalTitle>
-						</slot>
-						<ButtonClose/>
-					</ModalHeader>
-					<ModalBody>
-						<slot></slot>
-					</ModalBody>
-					<ModalFooter>
-						<slot name="footer">
-							<Button @click="close">Close</Button>
-							<Button @click="hide">
-								Ok
-							</Button>
-						</slot>
-					</ModalFooter>
-				</ModalContent>
-			</ModalDialog>
-		</component>
-		<ModalBackdrop v-if="states.shown" :show="states.backdrop"/>
-	</teleport>
+    <teleport to="body">
+        <component :is="tag" v-bind="attrs" ref="rootEl" @keydown.esc="onEsc">
+            <ModalDialog>
+                <ModalContent>
+                    <ModalHeader>
+                        <slot name="header">
+                            <ModalTitle>
+                                {{header?.text}}
+                            </ModalTitle>
+                        </slot>
+                        <ButtonClose @click="onClose"/>
+                    </ModalHeader>
+                    <ModalBody>
+                        <slot></slot>
+                    </ModalBody>
+                    <ModalFooter>
+                        <slot name="footer">
+                            <Button @click="onClose">Close</Button>
+                            <Button @click="onOk">
+                                {{okTitle}}
+                            </Button>
+                        </slot>
+                    </ModalFooter>
+                </ModalContent>
+            </ModalDialog>
+        </component>
+        <ModalBackdrop
+            v-if="states.backdrop"
+            :show="states.show"
+        />
+    </teleport>
 </template>

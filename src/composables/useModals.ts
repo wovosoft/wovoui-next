@@ -3,7 +3,13 @@ import {ModalFullScreen, ModalSizes} from "@/components/Modals";
 import {ColorVariant} from "@/composables/useColorSchemes";
 import {reactive, Ref, ref} from "vue";
 import {BasicSize} from "@/composables/useButtons";
-import {getTransitionDurationFromElement, useTimeout} from "@/composables/useHelpers";
+import {
+    eventBinder,
+    getTransitionDurationFromElement,
+    PADDING_DURATION,
+    reflow,
+    useTimeout
+} from "@/composables/useHelpers";
 
 export interface ModalTitleProps extends HasTag {
 
@@ -80,53 +86,89 @@ export interface ModalContentProps extends HasTag {
 
 const getScrollbarWidth = () => Math.abs(window.innerWidth - document.documentElement.clientWidth);
 
-export default function (emit: (event: 'show' | 'hide' | 'shown' | 'hidden' | 'ok' | 'close', value: boolean) => void, rootEl: Ref<HTMLElement>) {
-    const initialState = {
-        scrollWidth: 0,
-        paddingRight: null,
-        overflow: '',
-    };
+
+export default function (
+    emit: (
+        event: 'show' | 'hide' | 'shown' | 'hidden' | 'esc' | 'close' | 'ok' | 'clickOutside',
+        value: boolean
+    ) => void,
+    rootEl: Ref<HTMLElement | null>,
+    props: ModalProps
+) {
     const states = reactive({
+        styleBlock: false,
         shown: false,
-        transitioning: false,
         backdrop: false,
+        show: false,
+        transitioning: false,
+        paddingRight: null,
+        static: false
     });
 
+    function onClose(e: Event) {
+        emit('close', true);
+        if (!e.defaultPrevented) {
+            hide();
+        }
+    }
+
+    function onOk(e: Event) {
+        emit('ok', true);
+        if (!e.defaultPrevented) {
+            hide();
+        }
+    }
+
+    function onEsc(e: Event) {
+        if (!props.noCloseOnEsc && !e.defaultPrevented) {
+            hide();
+        }
+    }
 
     const timers = useTimeout();
-    let timer = null;
+    const Events = eventBinder();
+
+    const getDuration = () => getTransitionDurationFromElement(rootEl.value.querySelector('.modal-dialog')) + PADDING_DURATION;
     const show = () => {
         if (states.shown || states.transitioning) {
             return;
         }
 
-        states.shown = true;
+        setBodyAttributes();
+
+        states.styleBlock = true;
         states.transitioning = true;
         states.backdrop = true;
 
-
-        //emit show event
-        emit('show', true);
-
-        //hide scrollbar
-        hideScrollbar();
-
-        rootEl.value.style.display = 'block';
-
-        //add modal-open class to body
-        document.body.classList.add('modal-open');
-
-        if (timer) {
-            timers.clear(timer);
-        }
-
-        timer = timers.run(() => {
-            rootEl.value.classList.add('show');
+        timers.run(() => {
+            emit('show', true);
+            states.show = true;
         }, 0);
 
         timers.run(() => {
             states.transitioning = false;
-        }, getTransitionDurationFromElement(rootEl.value.querySelector('.modal-dialog')));
+            states.shown = true;
+            emit('shown', true);
+
+            //outside click handler
+            const modalContent = rootEl.value.querySelector('.modal-content');
+
+            Events.bind(document, 'click', (e: MouseEvent) => {
+                if (!modalContent.isSameNode(e.target as HTMLElement) && !modalContent.contains(e.target as HTMLElement)) {
+                    if (props.static) {
+                        states.static = true;
+                        timers.run(() => {
+                            states.static = false;
+                        }, getDuration());
+                    } else {
+                        hide();
+                    }
+                }
+            });
+
+        }, getDuration());
+
+
     };
 
 
@@ -135,79 +177,59 @@ export default function (emit: (event: 'show' | 'hide' | 'shown' | 'hidden' | 'o
             return;
         }
 
-        states.shown = false;
+        emit('hide', true);
+        reflow(rootEl.value);
         states.transitioning = true;
+        states.show = false;
 
-        rootEl.value.classList.remove('show');
-        if (states.backdrop) {
-            resetAdjustments();
-        }
-    };
+        timers.run(() => {
+            states.transitioning = false;
+            states.shown = false;
+            states.backdrop = false;
+            states.styleBlock = false;
+            emit('hidden', true);
+            resetBodyAttributes();
 
-    const resetAdjustments = () => {
-        //reset modal
-        rootEl.value.style.display = 'none';
-        states.transitioning = false;
-
-        document.body.classList.remove('modal-open');
-
-        //reset scrollbar
-        document.body.style.overflow = initialState.overflow;
-
-        if (initialState.paddingRight) {
-            document.body.style.paddingRight = initialState.paddingRight + 'px';
-        } else {
-            document.body.style.paddingRight = '';
-        }
-
-        states.backdrop = false;
-    };
-
-    const close = () => {
-
+            timers.clear();
+            Events.clear();
+        }, getDuration());
     };
 
     const toggle = () => {
 
     };
 
-    const hideScrollbar = () => {
-        const element = document.body;
 
-        //save the state first
-        initialState.overflow = element.style.getPropertyValue('overflow');
-        initialState.scrollWidth = getScrollbarWidth();
-
-        if (element.style.paddingRight) {
-            initialState.paddingRight = parseInt(element.style.paddingRight);
+    const setBodyAttributes = () => {
+        document.body.classList.add('modal-open');
+        if (document.body.style.paddingRight) {
+            states.paddingRight = getScrollbarWidth();
         }
 
-        //hide the scrollbar
-        element.style.overflow = 'hidden';
+        document.body.style.paddingRight = `${getScrollbarWidth()}px`;
+        document.body.style.overflow = 'hidden';
+    };
 
-        //set padding right , Number transform NaN to 0
-        element.style.paddingRight = (initialState.scrollWidth + Number(initialState.paddingRight)) + 'px';
+    const resetBodyAttributes = () => {
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        if (states.paddingRight) {
+            document.body.style.paddingRight = `${states.paddingRight}px`;
+        } else {
+            document.body.style.paddingRight = '';
+        }
     };
 
 
     return {
+        states,
         show,
         hide,
-        close,
+        onOk,
+        onClose,
+        onEsc,
         toggle,
-        hideScrollbar,
-        states,
-    };
-};
-
-
-
-
-
-
-
-
-
-
-
-
+        setBodyAttributes,
+        resetBodyAttributes,
+    }
+}
