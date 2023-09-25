@@ -1,19 +1,34 @@
 <script lang="ts" setup>
 import {computed} from "vue";
 import {ModalDialogProps} from "@/composables/useModals";
+import {getModalFullScreens, ModalFullScreen} from "@/components/Modals/index";
 
 const props = withDefaults(defineProps<ModalDialogProps>(), {
 	tag: 'div'
 });
 
-const attrs = computed(() => ({
-	class: ["modal-dialog", {
-		["modal-" + props.size]: props.size,
-		["modal-fullscreen" + (typeof props.fullscreen === 'string' ? ("-" + props.fullscreen) : "")]: !!props.fullscreen,
-		"modal-dialog-scrollable": props.scrollable,
-		"modal-dialog-centered": props.centered
-	}],
-}));
+const attrs = computed(() => {
+	let screens: string[] = [];
+	if (props.fullscreen === true) {
+		screens = ["modal-fullscreen"];
+	} else if (typeof props.fullscreen === 'string') {
+		screens = ["modal-fullscreen-" + props.fullscreen];
+	} else if (Array.isArray(props.fullscreen) && props.fullscreen.length) {
+		screens = props.fullscreen.map((screen: ModalFullScreen) => "modal-fullscreen-" + screen)
+	}
+	
+	return {
+		class: [
+			"modal-dialog",
+			...screens,
+			{
+				["modal-" + props.size]: props.size,
+				"modal-dialog-scrollable": props.scrollable,
+				"modal-dialog-centered": props.centered
+			}
+		],
+	};
+});
 </script>
 <template>
 	<component :is="tag" v-bind="attrs">

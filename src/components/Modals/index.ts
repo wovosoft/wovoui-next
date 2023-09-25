@@ -5,5 +5,8 @@ export {default as ModalHeader} from "./ModalHeader.vue";
 export {default as ModalTitle} from "./ModalTitle.vue";
 export {default as ModalDialog} from "./ModalDialog.vue";
 
-export type ModalSizes = "sm" | "lg" | "xl" | null;
-export type ModalFullScreen = boolean | 'sm-down' | 'md-down' | 'lg-down' | 'xl-down' | 'xxl-down'
+export const getModalFullScreens = [true, false, 'sm-down', 'md-down', 'lg-down', 'xl-down', 'xxl-down'] as const;
+export const getModalSizes = ['sm', 'lg', 'xl', null] as const;
+
+export type ModalSizes = typeof getModalSizes[number];
+export type ModalFullScreen = typeof getModalFullScreens[number];

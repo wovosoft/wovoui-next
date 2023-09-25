@@ -10,6 +10,7 @@ import {
     reflow,
     useTimeout
 } from "@/composables/useHelpers";
+import {join} from "lodash";
 
 export interface ModalTitleProps extends HasTag {
 
@@ -64,6 +65,7 @@ export interface ModalProps extends HasTag, HasSize {
 
     //boolean props
     static?: boolean;
+    fullscreen?: ModalFullScreen;
     scrollable?: boolean;
     centered?: boolean;
     busy?: boolean;
@@ -125,10 +127,32 @@ export default function (
         }
     }
 
-    const timers = useTimeout();
+    const Timers = useTimeout();
     const Events = eventBinder();
 
     const getDuration = () => getTransitionDurationFromElement(rootEl.value.querySelector('.modal-dialog')) + PADDING_DURATION;
+
+    const outsideClickHandler = (e: MouseEvent & { target: Element }) => {
+        //outside click handler
+        const modalContent = rootEl.value.querySelector('.modal-content');
+
+        if (
+            !modalContent.isSameNode(e.target)
+            && !modalContent.contains(e.target)
+        ) {
+            if (props.static || props.noCloseOnBackdrop) {
+                if (props.static) {
+                    states.static = true;
+                    Timers.run(() => {
+                        states.static = false;
+                    }, getDuration());
+                }
+            } else {
+                hide();
+            }
+        }
+    };
+
     const show = () => {
         if (states.shown || states.transitioning) {
             return;
@@ -140,35 +164,19 @@ export default function (
         states.transitioning = true;
         states.backdrop = true;
 
-        timers.run(() => {
+        Timers.run(() => {
             emit('show', true);
             states.show = true;
         }, 0);
 
-        timers.run(() => {
+        Timers.run(() => {
             states.transitioning = false;
             states.shown = true;
             emit('shown', true);
 
-            //outside click handler
-            const modalContent = rootEl.value.querySelector('.modal-content');
-
-            Events.bind(document, 'click', (e: MouseEvent) => {
-                if (!modalContent.isSameNode(e.target as HTMLElement) && !modalContent.contains(e.target as HTMLElement)) {
-                    if (props.static) {
-                        states.static = true;
-                        timers.run(() => {
-                            states.static = false;
-                        }, getDuration());
-                    } else {
-                        hide();
-                    }
-                }
-            });
-
+            Events.bind(document, 'click', outsideClickHandler);
+            rootEl.value.focus();
         }, getDuration());
-
-
     };
 
 
@@ -182,7 +190,7 @@ export default function (
         states.transitioning = true;
         states.show = false;
 
-        timers.run(() => {
+        Timers.run(() => {
             states.transitioning = false;
             states.shown = false;
             states.backdrop = false;
@@ -190,15 +198,14 @@ export default function (
             emit('hidden', true);
             resetBodyAttributes();
 
-            timers.clear();
+            Timers.clear();
             Events.clear();
         }, getDuration());
     };
 
     const toggle = () => {
-
+        states.static ? hide() : show();
     };
-
 
     const setBodyAttributes = () => {
         document.body.classList.add('modal-open');
