@@ -1,11 +1,146 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-
+    <component :is="tag" :class="classes">
+        <slot v-if="$slots.default"></slot>
+        <template v-else-if="pageCount<=(firstColPageCount + centerColPageCount + lastColPageCount)">
+            <PageItem v-for="page in pageCount"
+                      :active="state===page"
+                      @click.prevent="state=page">
+                {{page}}
+            </PageItem>
+        </template>
+        <template v-else-if="pageCount>0">
+            <template v-if="firstBlock.length>0">
+                <template v-for="page in firstBlock">
+                    <PageItem v-if="page<=pageCount"
+                              :active="state===page"
+                              @click.prevent="state=page">
+                        {{page}}
+                    </PageItem>
+                </template>
+                <PageItem v-if="centerBlock.length>0" disabled>
+                    <ThreeDots/>
+                </PageItem>
+            </template>
+            <template v-if="pageCount > firstColPageCount">
+                <template v-for="page in centerBlock">
+                    <PageItem v-if="page<=pageCount && !lastBlock.includes(page) && !firstBlock.includes(page)"
+                              :active="state===page"
+                              @click.prevent="state=page">
+                        {{page}}
+                    </PageItem>
+                </template>
+            </template>
+            <template v-if="(pageCount > firstColPageCount && lastBlock.length>0)">
+                <PageItem disabled>
+                    <ThreeDots/>
+                </PageItem>
+                <template v-for="page in lastBlock">
+                    <PageItem v-if="page<=pageCount"
+                              :active="state===page"
+                              @click.prevent="state=page">
+                        {{page}}
+                    </PageItem>
+                </template>
+            </template>
+        </template>
+    </component>
 </template>
 
-<style scoped>
+<script lang="ts" setup>
+import {computed, ref, watch} from "vue";
+import PageItem from "./PageItem.vue";
+import {ThreeDots} from "@wovosoft/wovoui-icons";
+import {PaginationProps} from "@/components/Navigation/useNavigation";
 
-</style>
+
+const props = withDefaults(defineProps<PaginationProps>(), {
+    tag: 'ul',
+    modelValue: 1,
+
+    totalRows: 0,
+    perPage: 15,
+    currentPage: 1,
+
+    firstColPageCount: 3,
+    centerColPageCount: 3,
+    lastColPageCount: 3
+});
+
+const emit = defineEmits<{
+    "update:modelValue": [vaue: number],
+    "update:currentPage": [vaue: number],
+    "change": [vaue: number],
+}>();
+
+//internal state, needed when props.currentPage not defined in calling component.
+const state = ref<number | null>(props.currentPage);
+
+watch(state, page => {
+    emit('update:modelValue', page);
+    emit('update:currentPage', page);
+    emit('change', page);
+});
+
+watch(() => props.currentPage, (page: number) => state.value = page);
+watch(() => props.modelValue, (page: number) => state.value = page);
+
+const pageCount = computed(() => {
+    if (Number(props.perPage)) {
+        return Math.ceil(Number(props.totalRows) / Number(props.perPage))
+    }
+    return 0;
+});
+
+const firstBlock = computed(() => {
+    if (pageCount.value < props.firstColPageCount) {
+        return [...Array(pageCount.value).keys()].map(i => i + 1)
+    }
+
+    if (Number(state.value) > props.firstColPageCount) {
+        return [...Array(props.firstColPageCount).keys()].map(i => i + 1);
+    }
+
+    if (Number(state.value) <= props.firstColPageCount) {
+        let count = pageCount.value - lastBlock.value.length;
+        if (count > props.firstColPageCount) {
+            count = props.firstColPageCount;
+        }
+        return [...Array(count).keys()].map(i => i + 1);
+    }
+
+
+    return [];
+});
+
+const centerBlock = computed(() => {
+    let items = [];
+    // let half = Math.round(props.centerColPageCount / 2);
+    if (Number(state.value) > props.firstColPageCount && Number(state.value) < (pageCount.value - props.lastColPageCount)) {
+        for (let x = 0; x < props.centerColPageCount; x++) {
+            if (props.centerColPageCount % 2 === 0) {
+
+            }
+            items.push(x - 1);
+        }
+    }
+    return items.map(i => i + Number(state.value));
+});
+
+const lastBlock = computed(() => {
+    if (pageCount.value >= (props.firstColPageCount + props.centerColPageCount)) {
+        let items = [];
+        for (let x = pageCount.value - props.lastColPageCount; x <= pageCount.value; x++) {
+            items.push(x);
+        }
+        return items;
+    }
+    return [];
+});
+
+const classes = computed(() => [
+    "pagination", {
+        ["pagination-" + props.size]: !!props.size,
+        ["justify-content-" + props.align]: !!props.align
+    }
+]);
+</script>

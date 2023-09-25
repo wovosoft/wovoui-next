@@ -103,6 +103,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         meta: {title: 'Modals'},
         name: 'pages.modals.index'
     },
+    {
+        path: '/navigation',
+        component: () => import('@/pages/Navigation/Index.vue'),
+        meta: {title: 'Navigation'},
+        name: 'pages.navigation.index'
+    },
 ];
 
 export default createRouter({

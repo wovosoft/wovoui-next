@@ -1,11 +1,16 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-
+    <Nav navs
+         :class="{'navbar-nav-scroll': scrollHeight || scrollable}"
+         :style="{'--bs-scroll-height':(typeof scrollHeight==='number'?scrollHeight+'px':scrollHeight)}">
+        <slot></slot>
+    </Nav>
 </template>
 
-<style scoped>
+<script lang="ts" setup>
+import Nav from "./Nav.vue";
+import {NavbarNavProps} from "@/components/Navigation/useNavigation";
 
-</style>
+withDefaults(defineProps<NavbarNavProps>(), {
+    tag: "ul"
+});
+</script>

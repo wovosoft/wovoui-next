@@ -1,11 +1,28 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-
+    <component :is="tag" :class="classes">
+        <PageLink :href="href" :tag="linkTag" :prev="prev" :next="next" :aria-label="ariaLabel">
+            <slot></slot>
+        </PageLink>
+    </component>
 </template>
 
-<style scoped>
+<script lang="ts" setup>
+import {computed} from "vue";
+import {PageItemProps} from "@/components/Navigation/useNavigation";
+import PageLink from "@/components/Navigation/PageLink.vue";
 
-</style>
+const props = withDefaults(defineProps<PageItemProps>(), {
+    tag: 'li',
+    linkTag: 'a',
+    href: '#'
+});
+
+const classes = computed(() => [
+        "page-item",
+        {
+            "active": props.active,
+            "disabled": props.disabled,
+        }
+    ]
+);
+</script>
