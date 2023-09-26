@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, inject} from "vue";
-import {ButtonProps} from "@/components/Buttons";
+import {ButtonGroupHasOutlineInjection, ButtonProps} from "@/components/Buttons";
 
 const props = withDefaults(defineProps<ButtonProps>(), {
     tag: 'button',
@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 });
 
 //data comes from ButtonGroup
-const isGroupOutlined = inject<boolean>('outline', false);
+const isGroupOutlined = inject(ButtonGroupHasOutlineInjection, false);
 
 const classes = computed(() => [
     "btn",

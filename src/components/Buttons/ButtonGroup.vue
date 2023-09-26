@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, provide} from "vue";
-import {ButtonGroupProps} from "@/components/Buttons/index";
+import {ButtonGroupHasOutlineInjection, ButtonGroupProps} from "@/components/Buttons/index";
 
 const props = withDefaults(defineProps<ButtonGroupProps>(), {
     tag: "div",
@@ -18,7 +18,7 @@ const attrs = computed(() => ({
     }
 }));
 
-provide<boolean>('outline', props.outline);
+provide(ButtonGroupHasOutlineInjection, props.outline);
 </script>
 
 <template>

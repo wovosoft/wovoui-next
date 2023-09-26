@@ -1,4 +1,4 @@
-import {ButtonHTMLAttributes} from "vue";
+import {ButtonHTMLAttributes, InjectionKey} from "vue";
 
 export {default as Button} from "./Button.vue";
 export {default as ButtonGroup} from "./ButtonGroup.vue";
@@ -50,3 +50,6 @@ export interface ButtonCloseProps {
     ariaLabel?: string;
     disabled?: boolean;
 }
+
+//Injection Keys
+export const ButtonGroupHasOutlineInjection: InjectionKey<boolean> = Symbol("Button Group Has Outline");
