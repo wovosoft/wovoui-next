@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {Table, Thead, Tbody, Tfoot, Tr, Th, Td} from "@/components/Tables";
-import {DatatableFieldType, DatatableItemType, DatatableProps} from "@/composables/useTables";
+import {DatatableFieldType, DatatableItemType, DatatableProps} from "@/components/Tables/index";
 import {startCase} from "lodash";
 
 const {

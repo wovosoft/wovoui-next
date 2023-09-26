@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {InputProps} from "@/composables/useForms";
 import {computed, inject, useModel} from "vue";
 import {isFalse} from "@/composables/useHelpers";
+import {InputProps} from "@/components/Forms/index";
 
 const props = withDefaults(defineProps<InputProps>(), {
 	type: 'text',

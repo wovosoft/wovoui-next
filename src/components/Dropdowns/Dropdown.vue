@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {Button} from "@/components/Buttons";
-import {DropdownMenu} from "@/components/Dropdowns";
+import {DropdownMenu, DropdownProps} from "@/components/Dropdowns";
 import {
 	createDropdown, directionMap,
-	DropdownProps, popperPlacementMap
+	popperPlacementMap
 } from "@/composables/useDropdowns";
 import {computed, defineComponent, getCurrentInstance, h, onMounted, ref} from "vue";
 

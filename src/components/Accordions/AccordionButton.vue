@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {AccordionButtonProps} from "@/composables/useAccordions";
+import {AccordionButtonProps} from "@/components/Accordions/index";
 
 withDefaults(defineProps<AccordionButtonProps>(), {
 	type: 'button',

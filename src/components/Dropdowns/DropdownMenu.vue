@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import {computed, watch} from "vue";
-import {DropdownMenuProps} from "@/composables/useDropdowns";
+import {DropdownMenuProps} from "@/components/Dropdowns/index";
 
 const props = withDefaults(defineProps<DropdownMenuProps>(), {
     tag: 'ul'

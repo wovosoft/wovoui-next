@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {ButtonProps} from "@/composables/useButtons";
 import {computed, inject} from "vue";
+import {ButtonProps} from "@/components/Buttons";
 
 const props = withDefaults(defineProps<ButtonProps>(), {
     tag: 'button',

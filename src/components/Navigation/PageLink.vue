@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {PageLinkProps} from "@/components/Navigation/useNavigation";
+import {PageLinkProps} from "@/components/Navigation/index";
 
 const props = withDefaults(defineProps<PageLinkProps>(), {
     tag: 'a',

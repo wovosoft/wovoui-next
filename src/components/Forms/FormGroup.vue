@@ -33,9 +33,9 @@
 
 <script lang="ts" setup>
 import {computed, provide} from "vue";
-import {FormGroupProps} from "@/composables/useForms";
 import FormLabel from "@/components/Forms/FormLabel.vue";
 import FeedbackMessages from "@/components/Forms/FeedbackMessages.vue";
+import {FormGroupProps} from "@/components/Forms/index";
 
 const {validFeedback, invalidFeedback, ...props} = withDefaults(defineProps<FormGroupProps>(), {
 	tag: "div"

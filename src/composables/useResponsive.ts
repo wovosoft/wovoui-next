@@ -1,4 +1,4 @@
-import {BasicSize} from "@/composables/useButtons";
+import {BasicSize} from "@/components/Buttons";
 
 export type ResponsiveNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 export type ScreenSize = "sm" | "md" | "lg" | "xl" | "xxl";
@@ -16,3 +16,16 @@ export type RectangularPosition = typeof getRectangularPositions[number];
 export const getScreenSizes: ScreenSize[] = ["sm", "md", "lg", "xl", "xxl"];
 export const getAspectRatios: AspectRatio[] = ['1x1', '4x3', '16x9', '21x9'];
 export const getRectangularPositions = ['top-right', 'top-left', 'bottom-right', 'bottom-left'] as const;
+
+export const top = "top";
+export const bottom = "bottom";
+export const end = "end";
+export const right = "right";
+export const start = "start";
+export const left = "left";
+export const auto = "auto";
+export const getBasePlacements = [top, bottom, end, start] as const;
+
+export type BasePlacement = typeof getBasePlacements[number];
+
+

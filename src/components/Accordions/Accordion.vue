@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {AccordionProps} from "@/composables/useAccordions";
 import {onMounted, provide, Ref, ref, useModel, watch} from "vue";
+import {AccordionProps} from "@/components/Accordions/index";
 
 const props = withDefaults(defineProps<AccordionProps>(), {
 	tag: 'div',

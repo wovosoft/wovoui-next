@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {ModalContentProps} from "@/composables/useModals";
+
+import {ModalContentProps} from "@/components/Modals/index";
 
 withDefaults(defineProps<ModalContentProps>(), {
 	tag: 'div'

@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import {ButtonCloseProps} from "@/composables/useButtons";
-import {computed} from "vue";
+import {ButtonHTMLAttributes, computed} from "vue";
+import {ButtonCloseProps} from "@/components/Buttons";
 
 const props = withDefaults(defineProps<ButtonCloseProps>(), {
-    ariaLabel: 'Close'
+	ariaLabel: 'Close'
 });
 
 const attrs = computed(() => ({
-    type: "button",
-    disabled: props.disabled,
-    ariaLabel: props.ariaLabel,
-    class: [
-        "btn-close",
-        {
-            'btn-close-white': props.white,
-            ["btn-" + props.size]: props.size
-        }
-    ]
+	type: "button" as ButtonHTMLAttributes['type'],
+	disabled: props.disabled,
+	ariaLabel: props.ariaLabel,
+	class: [
+		"btn-close",
+		{
+			'btn-close-white': props.white,
+			["btn-" + props.size]: props.size
+		}
+	]
 }));
 </script>
 
 <template>
-    <button v-bind="attrs"></button>
+	<button v-bind="attrs"></button>
 </template>

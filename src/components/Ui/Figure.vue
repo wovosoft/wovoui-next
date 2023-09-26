@@ -13,7 +13,8 @@
 </template>
 
 <script lang="ts" setup>
-import {FigureProps} from "@/composables/useUi";
+
+import {FigureProps} from "@/components/Ui/index";
 
 withDefaults(defineProps<FigureProps>(), {})
 </script>

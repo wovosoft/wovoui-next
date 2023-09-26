@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {useModel} from "vue";
-import {NavbarToggleProps} from "@/components/Navigation/useNavigation";
+import {NavbarToggleProps} from "@/components/Navigation/index";
 
 const props = withDefaults(defineProps<NavbarToggleProps>(), {
     modelValue: false

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import useModals, {ModalProps} from "@/composables/useModals";
+import useModals from "@/composables/useModals";
 import ModalDialog from "@/components/Modals/ModalDialog.vue";
 import ModalContent from "@/components/Modals/ModalContent.vue";
 import ModalHeader from "@/components/Modals/ModalHeader.vue";
@@ -10,7 +10,7 @@ import ModalTitle from "@/components/Modals/ModalTitle.vue";
 import ButtonClose from "@/components/Buttons/ButtonClose.vue";
 import {computed, ref} from "vue";
 import ModalBackdrop from "@/components/Modals/ModalBackdrop.vue";
-import vClickOutside from "@/directives/vClickOutside";
+import {ModalProps} from "@/components/Modals/index";
 
 const props = withDefaults(defineProps<ModalProps>(), {
 	tag: 'div',

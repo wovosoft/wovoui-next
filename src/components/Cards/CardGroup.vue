@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import {CardGroupProps} from "@/composables/useCards";
+import {CardGroupProps} from "./index";
 
 const props = withDefaults(defineProps<CardGroupProps>(), {
 	tag: 'div'

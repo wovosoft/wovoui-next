@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {CardHeaderProps} from "@/composables/useCards";
 import {generateClasses} from "@/composables/useHelpers";
+import {CardHeaderProps} from "./index";
 
 withDefaults(defineProps<CardHeaderProps>(), {
 	tag: 'div'

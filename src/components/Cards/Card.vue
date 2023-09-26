@@ -38,9 +38,8 @@
 </template>
 
 <script lang="ts" setup>
-import {CardBody, CardFooter, CardHeader, CardTitle, CardSubTitle, CardImage} from "./index";
+import {CardBody, CardFooter, CardHeader, CardTitle, CardSubTitle, CardImage, CardProps} from "./index";
 import {computed} from "vue";
-import {CardProps} from "@/composables/useCards";
 import {generateClasses} from "@/composables/useHelpers";
 
 const props = withDefaults(defineProps<CardProps>(), {

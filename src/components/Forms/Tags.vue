@@ -31,10 +31,9 @@
 <script lang="ts" setup>
 import {computed, ref, useModel} from "vue";
 import {X} from "@wovosoft/wovoui-icons";
-import {TagsProps} from "@/composables/useForms";
 import Badge from "@/components/Ui/Badge.vue";
 import {Button} from "@/components/Buttons";
-import {Input} from "@/components/Forms";
+import {Input, TagsProps} from "@/components/Forms";
 
 const props = withDefaults(defineProps<TagsProps>(), {
     tag: 'ul',

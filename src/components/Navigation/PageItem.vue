@@ -8,8 +8,8 @@
 
 <script lang="ts" setup>
 import {computed} from "vue";
-import {PageItemProps} from "@/components/Navigation/useNavigation";
 import PageLink from "@/components/Navigation/PageLink.vue";
+import {PageItemProps} from "@/components/Navigation/index";
 
 const props = withDefaults(defineProps<PageItemProps>(), {
     tag: 'li',

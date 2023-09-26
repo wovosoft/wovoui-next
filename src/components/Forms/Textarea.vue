@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {TextareaProps} from "@/composables/useForms";
 import {useModel} from "vue";
 import {inject} from "vue";
+import {TextareaProps} from "@/components/Forms/index";
 
 const props = withDefaults(defineProps<TextareaProps>(), {});
 const hasFloatingLabel = inject('hasFloatingLabel') as boolean;

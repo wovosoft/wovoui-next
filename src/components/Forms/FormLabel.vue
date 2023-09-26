@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {FormLabelProps} from "@/composables/useForms";
 import {computed} from "vue";
+import {FormLabelProps} from "@/components/Forms/index";
 
 const props = withDefaults(defineProps<FormLabelProps>(), {});
 const classes = computed(() => ({

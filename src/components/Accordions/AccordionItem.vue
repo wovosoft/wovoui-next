@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {AccordionItemProps} from "@/composables/useAccordions";
 import AccordionHeader from "@/components/Accordions/AccordionHeader.vue";
 import AccordionBody from "@/components/Accordions/AccordionBody.vue";
 import Collapse from "@/components/Accordions/Collapse.vue";
 import AccordionButton from "@/components/Accordions/AccordionButton.vue";
 import {inject, onMounted, Ref, ref} from "vue";
+import {AccordionItemProps} from "@/components/Accordions/index";
 
 withDefaults(defineProps<AccordionItemProps>(), {
 	tag: 'div',

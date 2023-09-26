@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {CardTitleProps} from "@/composables/useCards";
+import {CardTitleProps} from "./index";
 
 withDefaults(defineProps<CardTitleProps>(), {
 	tag: 'h4'

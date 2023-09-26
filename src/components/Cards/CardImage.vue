@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import {CardImageProps} from "@/composables/useCards";
+import {CardImageProps} from "./index";
 
 const props = withDefaults(defineProps<CardImageProps>(), {});
 

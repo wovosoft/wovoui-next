@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {CardLinkProps} from "@/composables/useCards";
+import {CardLinkProps} from "./index";
 
 withDefaults(defineProps<CardLinkProps>(), {
 	href: '#'

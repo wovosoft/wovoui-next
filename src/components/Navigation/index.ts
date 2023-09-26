@@ -1,12 +1,11 @@
 import {HasBgVariant, HasTag} from "@/composables/useCommonProps";
 import {RouteRecordRaw} from "vue-router";
-import {ThemeVariant} from "@/index";
 import {ScreenSize} from "@/composables/useResponsive";
-import {BasicSize} from "@/composables/useButtons";
+import {ThemeVariant} from "@/index";
+import {BasicSize} from "@/components/Buttons";
 import {Icons} from "@wovosoft/wovoui-icons/types";
-import {PropType} from "vue";
 import {ColorVariant} from "@/composables/useColorSchemes";
-import {AccordionProps} from "@/composables/useAccordions";
+import {AccordionProps} from "@/components/Accordions";
 
 export interface PageLinkProps extends HasTag {
     href?: string;

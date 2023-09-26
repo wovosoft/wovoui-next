@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {RowProps} from "@/composables/useLayouts";
 import {computed} from "vue";
+import {RowProps} from "@/components/Layouts/index";
 
 const props = withDefaults(defineProps<RowProps>(), {
 	tag: 'div'

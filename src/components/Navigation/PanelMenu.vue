@@ -34,10 +34,10 @@
 <script lang="ts" setup>
 import {onBeforeMount, ref, watch} from "vue";
 import {ChevronDown, ChevronRight, ChevronUp} from "@wovosoft/wovoui-icons";
-import {MenuItem, PanelMenuProps} from "@/components/Navigation/useNavigation";
 import ListGroupItem from "@/components/ListGroups/ListGroupItem.vue";
 import Collapse from "@/components/Accordions/Collapse.vue";
 import Icon from "@/components/Ui/Icon.vue";
+import {MenuItem, PanelMenuProps} from "@/components/Navigation/index";
 
 const emit = defineEmits<{
     (e: 'itemClicked', value: MenuItem): void

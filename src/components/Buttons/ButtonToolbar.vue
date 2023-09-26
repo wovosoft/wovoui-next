@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type {ButtonGroupProps} from "@/composables/useButtons";
 import {computed} from "vue";
+import {ButtonGroupProps} from "@/components/Buttons/index";
 
 const props = withDefaults(defineProps<ButtonGroupProps>(), {
     tag: "div",

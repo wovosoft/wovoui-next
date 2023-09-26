@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import {NavProps} from "@/components/Navigation/useNavigation";
+import {NavProps} from "@/components/Navigation/index";
 
 const props = withDefaults(defineProps<NavProps>(), {
     tag: 'ul'

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {CardBodyProps} from "@/composables/useCards";
 import {computed} from "vue";
 import {generateClasses} from "@/composables/useHelpers";
 import CardTitle from "@/components/Cards/CardTitle.vue";
 import CardSubTitle from "@/components/Cards/CardSubTitle.vue";
+import {CardBodyProps} from "./index";
 
 const props = withDefaults(defineProps<CardBodyProps>(), {
 	tag: 'div',

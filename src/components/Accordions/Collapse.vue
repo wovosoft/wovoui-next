@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import {CollapseProps, useCollapse} from "@/composables/useAccordions";
+import {useCollapse} from "@/composables/useAccordions";
 import {useModel, watch, computed} from "vue";
+import {CollapseProps} from "@/components/Accordions/index";
 
 const props = withDefaults(defineProps<CollapseProps>(), {
 	tag: 'div',

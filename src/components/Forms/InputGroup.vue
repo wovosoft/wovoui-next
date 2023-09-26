@@ -16,8 +16,7 @@
 
 <script lang="ts" setup>
 import {computed} from "vue";
-import {InputGroupProps} from "@/composables/useForms";
-import {InputGroupText} from "./index";
+import {InputGroupProps, InputGroupText} from "./index";
 
 const props = withDefaults(defineProps<InputGroupProps>(), {
     tag: 'div'

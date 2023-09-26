@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {CarouselInnerProps} from "@/composables/useCarousels";
+import {CarouselInnerProps} from "@/components/Carousels/index";
 
 withDefaults(defineProps<CarouselInnerProps>(), {
 	tag: 'div'

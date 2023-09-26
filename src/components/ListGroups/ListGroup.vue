@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {ListGroupProps} from "@/composables/useListGroups";
 import {computed, provide} from "vue";
 import {getScreenSizes, ScreenSize} from "@/composables/useResponsive";
+import {ListGroupProps} from "@/components/ListGroups/index";
 
 const props = withDefaults(defineProps<ListGroupProps>(), {
     tag: "ul",

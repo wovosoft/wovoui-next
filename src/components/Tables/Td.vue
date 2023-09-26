@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {CommonTableProps, getTableCommonClasses} from "@/composables/useTables";
+import {CommonTableProps, getTableCommonClasses} from "@/components/Tables/index";
 
 const props = withDefaults(defineProps<CommonTableProps>(), {});
 const classes = getTableCommonClasses(props);

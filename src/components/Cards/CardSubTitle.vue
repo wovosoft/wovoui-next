@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {CardSubTitleProps} from "@/composables/useCards";
 import {computed} from "vue";
+import {CardSubTitleProps} from "./index";
 
 const props = withDefaults(defineProps<CardSubTitleProps>(), {
 	tag: 'h6'

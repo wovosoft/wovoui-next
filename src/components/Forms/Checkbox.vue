@@ -16,8 +16,8 @@
 
 <script lang="ts" setup>
 import {computed, useModel} from "vue";
-import {CheckboxProps} from "@/composables/useForms";
 import {uid} from "@/composables/useHelpers";
+import {CheckboxProps} from "@/components/Forms/index";
 
 const props = withDefaults(defineProps<CheckboxProps>(), {});
 

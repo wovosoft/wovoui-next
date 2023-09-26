@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {AlertProps} from "@/composables/useAlerts";
 import {computed, ref,} from "vue";
 import ButtonClose from "@/components/Buttons/ButtonClose.vue";
 import {getTransitionDurationFromElement} from "@/composables/useHelpers";
+import {AlertProps} from "@/components/Alerts/index";
 
 const props = withDefaults(defineProps<AlertProps>(), {
 	tag: 'div',

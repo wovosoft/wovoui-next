@@ -19,7 +19,7 @@
 //https://gist.github.com/Jonarod/8553d88b1b0d1e1898ff1b5c951b00cc
 import {computed, useModel} from "vue";
 import {uid} from "@/composables/useHelpers";
-import {RadioProps} from "@/composables/useForms";
+import {RadioProps} from "@/components/Forms/index";
 
 defineOptions({
     inheritAttrs: false

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {ProgressProps} from "@/composables/useIndicators";
 import ProgressBar from "@/components/Indicators/ProgressBar.vue";
+import {ProgressProps} from "@/components/Indicators/index";
 
 const props = withDefaults(defineProps<ProgressProps>(), {
 	tag: 'div',

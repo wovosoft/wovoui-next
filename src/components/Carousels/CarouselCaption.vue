@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {CarouselCaptionProps} from "@/composables/useCarousels";
+
+import {CarouselCaptionProps} from "@/components/Carousels/index";
 
 withDefaults(defineProps<CarouselCaptionProps>(), {
 	tag: 'div'

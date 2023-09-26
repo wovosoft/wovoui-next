@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {AccordionHeaderProps} from "@/composables/useAccordions";
+import {AccordionHeaderProps} from "@/components/Accordions/index";
 
 withDefaults(defineProps<AccordionHeaderProps>(), {
 	tag: 'div'

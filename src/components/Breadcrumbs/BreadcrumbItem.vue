@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import {computed, getCurrentInstance} from "vue";
-import {BreadcrumbItemProps} from "@/composables/useBreadcrumbs";
+import {BreadcrumbItemProps} from "@/components/Breadcrumbs/index";
 
 const props = withDefaults(defineProps<BreadcrumbItemProps>(), {
 	tag: "li",

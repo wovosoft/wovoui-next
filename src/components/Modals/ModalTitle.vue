@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {ModalTitleProps} from "@/composables/useModals";
+import {ModalTitleProps} from "@/components/Modals/index";
 
 withDefaults(defineProps<ModalTitleProps>(), {
 	tag: 'h5'

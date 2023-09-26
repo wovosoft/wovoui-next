@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Feedback from "@/components/Forms/Feedback.vue";
-import {FeedbackMessagesProps} from "@/composables/useForms";
+import {FeedbackMessagesProps} from "@/components/Forms/index";
 
 defineOptions({
     inheritAttrs: false

@@ -16,9 +16,9 @@
 
 <script lang="ts" setup>
 import {computed, useModel} from "vue";
-import {RadioGroupProps} from "@/composables/useForms";
 import {uid} from "@/composables/useHelpers";
 import Radio from "@/components/Forms/Radio.vue";
+import {RadioGroupProps} from "@/components/Forms/index";
 
 const props = withDefaults(defineProps<RadioGroupProps>(), {
     textField: 'text',

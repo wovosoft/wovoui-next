@@ -16,9 +16,9 @@
  */
 
 import {computed} from "vue";
-import {AspectProps} from "@/composables/useUi";
 import {getAspectRatios} from "@/composables/useResponsive";
 import {isNumeric} from "@/composables/useHelpers";
+import {AspectProps} from "@/components/Ui/index";
 
 /**
  * This component is generated based on bootstrap helpers.

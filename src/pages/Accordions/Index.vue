@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import Button from "@/components/Buttons/Button.vue";
 import Collapse from "@/components/Accordions/Collapse.vue";
 import Card from "@/components/Cards/Card.vue";
@@ -112,7 +111,7 @@ const accordionModel = ref<number>(0)
 				`.accordion-body`, though the transition does limit overflow.
 			</AccordionItem>
 		</Accordion>
-		
-		
+	
+	
 	</div>
 </template>

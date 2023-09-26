@@ -36,8 +36,8 @@
 <script lang="ts" setup>
 import {computed, useModel} from "vue";
 import {Dash, Plus} from "@wovosoft/wovoui-icons";
-import {SpinButtonProps} from "@/composables/useForms";
 import InputGroup from "@/components/Forms/InputGroup.vue";
+import {SpinButtonProps} from "@/components/Forms/index";
 
 
 const props = withDefaults(defineProps<SpinButtonProps>(), {

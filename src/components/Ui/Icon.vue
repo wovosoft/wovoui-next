@@ -1,6 +1,6 @@
 <script lang="ts">
 import {defineComponent, h, PropType} from "vue";
-import type {Icons} from "@wovosoft/wovoui-icons/dist/types";
+import type {Icons} from "@wovosoft/wovoui-icons/types";
 
 /**
  * This component doesn't generate SVGs.
@@ -9,30 +9,30 @@ import type {Icons} from "@wovosoft/wovoui-icons/dist/types";
  * @link https://icons.getbootstrap.com/#install
  */
 export default defineComponent({
-    name: "Icon",
-    props: {
-        /**
-         * Icon Tag
-         * Suggested : i, span
-         * @default i
-         */
-        tag: {type: String as PropType<keyof HTMLElementTagNameMap>, default: 'i'},
-
-        /**
-         * Name of the bootstrap icon
-         * @link https://icons.getbootstrap.com/
-         */
-        icon: {type: String as PropType<Icons>, default: null}
-    },
-    setup(props) {
-        return () => h(props.tag, {
-            class: [
-                "bi",
-                {
-                    ["bi-" + props.icon]: props.icon
-                }
-            ]
-        });
-    }
+	name: "Icon",
+	props: {
+		/**
+		 * Icon Tag
+		 * Suggested : i, span
+		 * @default i
+		 */
+		tag: {type: String as PropType<keyof HTMLElementTagNameMap>, default: 'i'},
+		
+		/**
+		 * Name of the bootstrap icon
+		 * @link https://icons.getbootstrap.com/
+		 */
+		icon: {type: String as PropType<Icons>, default: null}
+	},
+	setup(props) {
+		return () => h(props.tag, {
+			class: [
+				"bi",
+				{
+					["bi-" + props.icon]: props.icon
+				}
+			]
+		});
+	}
 })
 </script>

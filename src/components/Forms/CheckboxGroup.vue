@@ -15,9 +15,9 @@
 </template>
 
 <script lang="ts" setup>
-import {CheckboxGroupProps} from "@/composables/useForms";
 import Checkbox from "@/components/Forms/Checkbox.vue";
 import {useModel} from "vue";
+import {CheckboxGroupProps} from "@/components/Forms/index";
 
 const props = withDefaults(defineProps<CheckboxGroupProps>(), {});
 

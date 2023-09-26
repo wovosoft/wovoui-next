@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {SpinnerProps} from "@/composables/useIndicators";
 import {computed} from "vue";
+import {SpinnerProps} from "@/components/Indicators/index";
 
 const props = withDefaults(defineProps<SpinnerProps>(), {
 	tag: 'div'

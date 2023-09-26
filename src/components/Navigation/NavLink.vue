@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import {computed, getCurrentInstance} from "vue";
-import {linkAttributesType, NavLinkProps} from "@/components/Navigation/useNavigation";
+import {linkAttributesType, NavLinkProps} from "@/components/Navigation/index";
 
 const props = withDefaults(defineProps<NavLinkProps>(), {
     tag: 'a',

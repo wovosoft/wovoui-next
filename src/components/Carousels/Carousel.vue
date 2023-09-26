@@ -5,7 +5,7 @@ import CarouselControl from "@/components/Carousels/CarouselControl.vue";
 import CarouselIndicators from "@/components/Carousels/CarouselIndicators.vue";
 import {computed, onMounted, provide, Ref, ref, useModel} from "vue";
 import CarouselIndicatorButton from "@/components/Carousels/CarouselIndicatorButton.vue";
-import {CarouselProps} from "@/composables/useCarousels";
+import {CarouselProps} from "@/components/Carousels/index";
 
 type DirectionType = 'start' | 'end';
 

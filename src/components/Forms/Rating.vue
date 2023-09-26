@@ -15,7 +15,7 @@ import {computed} from "vue";
 import {Star, StarFill} from "@wovosoft/wovoui-icons";
 
 import {useStateModel} from "@/composables/useHelpers";
-import {RatingProps} from "@/composables/useForms";
+import {RatingProps} from "@/components/Forms/index";
 
 const props = withDefaults(defineProps<RatingProps>(), {
     max: 5

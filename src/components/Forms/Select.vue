@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import {computed, useModel} from "vue";
-import {SelectProps} from "@/composables/useForms";
+import {SelectProps} from "@/components/Forms/index";
 
 const props = withDefaults(defineProps<SelectProps>(), {
     valueField: 'value',

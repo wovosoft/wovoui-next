@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {CarouselItemProps} from "@/composables/useCarousels";
 import {getCurrentInstance, inject, onMounted, Ref, useModel, watch} from "vue";
 import {getTransitionDurationFromElement, reflow, useTimeout} from "@/composables/useHelpers";
+import {CarouselItemProps} from "@/components/Carousels/index";
 
 const props = withDefaults(defineProps<CarouselItemProps>(), {
 	tag: 'div',

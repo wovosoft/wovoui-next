@@ -109,6 +109,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         meta: {title: 'Navigation'},
         name: 'pages.navigation.index'
     },
+    {
+        path: '/notifications',
+        component: () => import('@/pages/Notifications/Index.vue'),
+        meta: {title: 'Notifications'},
+        name: 'pages.notifications.index'
+    },
 ];
 
 export default createRouter({

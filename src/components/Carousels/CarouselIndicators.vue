@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {CarouselIndicatorsProps} from "@/composables/useCarousels";
+
+import {CarouselIndicatorsProps} from "@/components/Carousels/index";
 
 withDefaults(defineProps<CarouselIndicatorsProps>(), {
 	tag: 'div'

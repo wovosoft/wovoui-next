@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {FeedbackProps} from "@/composables/useForms";
+import {FeedbackProps} from "@/components/Forms/index";
 
 withDefaults(defineProps<FeedbackProps>(), {
     tag: 'div',

@@ -1,8 +1,4 @@
-import {HasSize, HasTag, HasVariant} from "@/composables/useCommonProps";
-import {ModalFullScreen, ModalSizes} from "@/components/Modals";
-import {ColorVariant} from "@/composables/useColorSchemes";
-import {reactive, Ref, ref} from "vue";
-import {BasicSize} from "@/composables/useButtons";
+import {reactive, Ref} from "vue";
 import {
     eventBinder,
     getTransitionDurationFromElement,
@@ -10,81 +6,9 @@ import {
     reflow,
     useTimeout
 } from "@/composables/useHelpers";
-import {join} from "lodash";
 
-export interface ModalTitleProps extends HasTag {
+import {ModalProps} from "@/components/Modals";
 
-}
-
-export interface ModalHeaderProps extends HasTag, HasVariant {
-    shrink?: boolean;
-}
-
-export interface ModalFooterProps extends HasTag, HasVariant {
-    shrink?: boolean;
-}
-
-export interface ModalDialogProps extends HasTag {
-    scrollable?: boolean;
-    centered?: boolean;
-    size?: ModalSizes;
-    fullscreen?: ModalFullScreen;
-}
-
-export interface ModalBodyProps extends HasTag, HasVariant {
-
-}
-
-type ModalPropBooleans =
-    'static'
-    | 'scrollable'
-    | 'centered'
-    | 'busy'
-    | 'cancelDisabled'
-    | 'okOnly'
-    | 'okDisabled'
-    | 'noCloseOnEsc'
-    | 'noCloseOnBackdrop'
-    | 'noFade';
-
-type ModalPropStrings =
-    'ariaLabel'
-    | 'okTitle'
-    | 'cancelTitle';
-
-export interface ModalProps extends HasTag, HasSize {
-    header?: ModalHeaderProps & { text: string }
-    body?: ModalBodyProps;
-    footer?: ModalFooterProps & { text: string };
-    dialog?: ModalDialogProps;
-    content?: ModalContentProps;
-    title?: ModalTitleProps & { text: string };
-    okVariant?: ColorVariant;
-    buttonSize?: BasicSize;
-    cancelVariant?: ColorVariant;
-
-    //boolean props
-    static?: boolean;
-    fullscreen?: ModalFullScreen;
-    scrollable?: boolean;
-    centered?: boolean;
-    busy?: boolean;
-    cancelDisabled?: boolean;
-    okOnly?: boolean;
-    okDisabled?: boolean;
-    noCloseOnEsc?: boolean;
-    noCloseOnBackdrop?: boolean;
-    noFade?: boolean;
-
-    //string props
-    ariaLabel?: string;
-    okTitle?: string;
-    cancelTitle?: string;
-}
-
-export interface ModalContentProps extends HasTag {
-
-}
 
 const getScrollbarWidth = () => Math.abs(window.innerWidth - document.documentElement.clientWidth);
 

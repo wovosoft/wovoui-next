@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {ColProps} from "@/composables/useLayouts";
 import {computed} from "vue";
 import {isBoolean, isTrue} from "@/composables/useHelpers";
+import {ColProps} from "@/components/Layouts/index";
 
 const props = withDefaults(defineProps<ColProps>(), {
 	tag: 'div'

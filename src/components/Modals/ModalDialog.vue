@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import {computed} from "vue";
-import {ModalDialogProps} from "@/composables/useModals";
-import {getModalFullScreens, ModalFullScreen} from "@/components/Modals/index";
+import {ModalDialogProps, ModalFullScreen} from "@/components/Modals/index";
 
 const props = withDefaults(defineProps<ModalDialogProps>(), {
 	tag: 'div'

@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 import Nav from "./Nav.vue";
-import {NavbarNavProps} from "@/components/Navigation/useNavigation";
+import {NavbarNavProps} from "@/components/Navigation/index";
 
 withDefaults(defineProps<NavbarNavProps>(), {
     tag: "ul"

@@ -1,6 +1,6 @@
 import {ColorVariant, TextVariants} from "@/composables/useColorSchemes";
 import {ColOrders, ColSize, ResponsiveNumber} from "@/composables/useResponsive";
-import {BasicSize} from "@/composables/useButtons";
+import {BasicSize} from "@/components/Buttons";
 
 export interface HasTag {
     tag?: keyof HTMLElementTagNameMap;

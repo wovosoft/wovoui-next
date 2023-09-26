@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import Input from "@/components/Forms/Input.vue";
 import DropdownMenu from "@/components/Dropdowns/DropdownMenu.vue";
-import { AutocompleteProps } from "@/composables/useAutocompletes";
 import { computed, getCurrentInstance, onMounted, ref, useModel } from "vue";
-import { createDropdown, DropdownInterface } from "@/composables/useDropdowns";
+import { createDropdown } from "@/composables/useDropdowns";
+import {AutocompleteProps} from "@/components/Forms/index";
+import {DropdownInterface} from "@/components/Dropdowns";
 
 const props = withDefaults(defineProps<AutocompleteProps>(), {
     maxHeight: '300px',

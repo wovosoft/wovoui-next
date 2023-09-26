@@ -28,11 +28,11 @@
 </template>
 
 <script lang="ts" setup>
-import {MenuProps} from "@/components/Navigation/useNavigation";
 import {computed} from "vue";
 import {ChevronRight} from "@wovosoft/wovoui-icons";
 import AccordionItem from "@/components/Accordions/AccordionItem.vue";
 import Accordion from "@/components/Accordions/Accordion.vue";
+import {MenuProps} from "@/components/Navigation/index";
 
 const props = withDefaults(defineProps<MenuProps>(), {
     //@ts-ignore

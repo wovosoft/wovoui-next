@@ -10,7 +10,8 @@
 </template>
 
 <script lang="ts" setup>
-import {DropdownButtonProps} from "@/composables/useDropdowns";
+
+import {DropdownButtonProps} from "@/components/Dropdowns/index";
 
 withDefaults(defineProps<DropdownButtonProps>(), {
     active: false,

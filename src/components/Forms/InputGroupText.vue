@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {InputGroupTextProps} from "@/composables/useForms";
+import {InputGroupTextProps} from "@/components/Forms/index";
 
 withDefaults(defineProps<InputGroupTextProps>(), {
     tag: 'span'

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {ContainerProps} from "@/composables/useLayouts";
 import {computed} from "vue";
+import {ContainerProps} from "@/components/Layouts/index";
 
 const props = withDefaults(defineProps<ContainerProps>(), {
 	tag: 'div',

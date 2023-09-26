@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {computed} from "vue";
-import {ModalHeaderProps} from "@/composables/useModals";
+import {ModalHeaderProps} from "@/components/Modals/index";
 
 const props = withDefaults(defineProps<ModalHeaderProps>(), {
 	tag: 'div'

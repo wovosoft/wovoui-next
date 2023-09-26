@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import {VrProps} from "@/composables/useUi";
 import {computed} from "vue";
+import {VrProps} from "@/components/Ui/index";
 
 const props = withDefaults(defineProps<VrProps>(), {
-    tag: 'div'
+	tag: 'div'
 });
 
 const attrs = computed(() => ({
-    class: 'vr',
-    '--bs-border-width': props.width || undefined
+	class: 'vr',
+	'--bs-border-width': props.width || undefined
 }))
 </script>
 
 <template>
-    <component :is="tag" v-bind="attrs"/>
+	<component :is="tag" v-bind="attrs"/>
 </template>

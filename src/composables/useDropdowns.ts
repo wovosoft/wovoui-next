@@ -1,81 +1,14 @@
-import { HasSize, HasTag, HasVariant } from "@/composables/useCommonProps";
-import { ColorVariant } from "@/composables/useColorSchemes";
-import { Placement } from "@popperjs/core";
-import usePopper, { PopperOptions } from "@/composables/usePopper";
-import { onBeforeUnmount, StyleValue } from "vue";
-import { isEmpty } from "lodash";
-import { ComputedPlacement } from "@popperjs/core/lib/enums";
-
-export interface DropdownItemProps extends HasTag {
-    href?: string;
-    noItemTag?: boolean;
-    active?: boolean;
-    disabled?: boolean;
-    isText?: boolean;
-    itemTag?: keyof HTMLElementTagNameMap;
-}
-
-export interface DropdownHeaderProps extends HasTag {
-    wrapper?: keyof HTMLElementTagNameMap;
-}
-
-export interface DropdownButtonProps {
-    active?: boolean,
-    disabled?: boolean,
-}
-
-export interface DropdownMenuProps extends HasTag {
-    dark?: boolean;
-    show?: boolean;
-    block?: boolean;
-}
-
-export interface DropdownProps extends HasTag, HasSize, HasVariant {
-    menuTag?: keyof HTMLElementTagNameMap;
-    toggleTag?: keyof HTMLElementTagNameMap;
-
-    text?: string | null;
-    splitVariant?: ColorVariant;
-    block?: boolean;
-    disabled?: boolean;
-
-    menuDark?: boolean;
-    menuClass?: StyleValue;
-
-    split?: boolean;
-    isNav?: boolean;
-
-    asGroup?: boolean;
-
-    rtl?: boolean;
-    dir?: DropdownDirection;
-    align?: DropdownAlignment;
-
-    modelValue?: boolean;
-}
-
-export const dropdownDirections = ["start", "end", "top", "bottom"] as const;
-export type DropdownDirection = typeof dropdownDirections[number];
-
-export const dropdownAlignments = ["start", "end", "center"] as const;
-export type DropdownAlignment = typeof dropdownAlignments[number];
-
-export const dropdownDropDirections = ["dropdown", "dropup", "dropstart", "dropend"] as const;
-export type DropdownDropDir = typeof dropdownDropDirections[number];
-
-export type DropdownMenuAlignment = "start"
-    | "end"
-    | "sm-start"
-    | "sm-end"
-    | "md-start"
-    | "md-end"
-    | "lg-start"
-    | "lg-end"
-    | "xl-start"
-    | "xl-end"
-    | "xxl-start"
-    | "xxl-end"
-    | Placement;
+import usePopper, {PopperOptions} from "@/composables/usePopper";
+import {onBeforeUnmount} from "vue";
+import {isEmpty} from "lodash";
+import {ComputedPlacement} from "@popperjs/core/lib/enums";
+import {
+    DropdownAlignment,
+    DropdownDirection,
+    DropdownDropDir,
+    DropdownInterface,
+    DropdownOptionsInterface
+} from "@/components/Dropdowns";
 
 export const popperPlacementMap: Record<DropdownAlignment, Record<DropdownDirection, ComputedPlacement>> = {
     start: {
@@ -105,18 +38,6 @@ export const directionMap: Record<DropdownDirection, DropdownDropDir> = {
     bottom: "dropdown"
 };
 
-export interface DropdownInterface {
-    show: () => void,
-    hide: () => void,
-    toggle: () => void,
-    destroy: () => void,
-    onKeydownDown: (e: KeyboardEvent) => void,
-    onKeydownUp: (e: KeyboardEvent) => void
-}
-
-export interface DropdownOptionsInterface {
-    focusToggleOnHide: boolean;
-}
 
 export function createDropdown(
     el: HTMLElement | Element,
@@ -124,7 +45,7 @@ export function createDropdown(
     dropdownMenu?: HTMLElement | null,//popper
     options?: PopperOptions,
     emit?: (event: 'show' | 'shown' | 'hide' | 'hidden' | 'update:modelValue' | 'update:isShown', value: boolean) => void,
-    dropdownOptions: DropdownOptionsInterface = { focusToggleOnHide: true }
+    dropdownOptions: DropdownOptionsInterface = {focusToggleOnHide: true}
 ): DropdownInterface {
     if (!dropdownToggle) {
         dropdownToggle = el.querySelector('.dropdown-toggle');

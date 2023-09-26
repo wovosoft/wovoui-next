@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {AccordionBodyProps} from "@/composables/useAccordions";
+import {AccordionBodyProps} from "@/components/Accordions/index";
 
 withDefaults(defineProps<AccordionBodyProps>(), {
 	tag: 'div',

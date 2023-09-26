@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {UsersFew} from "@/pages/Tables/users";
 import {Datatable} from "@/components/Tables";
-import {DatatableFieldType} from "@/composables/useTables";
+import {DatatableFieldType} from "@/components/Tables";
 
 const fields = [
     {key: 'id'},
