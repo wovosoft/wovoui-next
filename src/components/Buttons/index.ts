@@ -1,19 +1,20 @@
 import {ButtonHTMLAttributes, InjectionKey} from "vue";
 
+
+//Components
 export {default as Button} from "./Button.vue";
 export {default as ButtonGroup} from "./ButtonGroup.vue";
 export {default as ButtonToolbar} from "./ButtonToolbar.vue";
 export {default as ButtonClose} from "./ButtonClose.vue";
 
-import {ColorVariant} from "@/composables/useColorSchemes";
+
+// Types
+import {HasSize, HasTag, HasVariant} from "@/composables/useCommonProps";
 
 export type BasicSize = 'sm' | 'lg';
 
-export interface ButtonProps {
-    tag?: keyof HTMLElementTagNameMap,
+export interface ButtonProps extends HasTag, HasVariant, HasSize {
     href?: string,
-    variant?: ColorVariant;
-    size?: BasicSize;
     type?: ButtonHTMLAttributes['type'];
     outline?: boolean;
     block?: boolean;
@@ -28,24 +29,20 @@ export interface ButtonProps {
     large?: boolean;
 }
 
-export interface ButtonGroupProps {
-    tag?: keyof HTMLElementTagNameMap;
+export interface ButtonGroupProps extends HasTag, HasSize {
     ariaLabel?: string;
-    size?: BasicSize;
     vertical?: boolean;
     justified?: boolean;
     outline?: boolean;
     role?: string;
 }
 
-export interface ButtonToolbarProps {
-    tag?: keyof HTMLElementTagNameMap;
+export interface ButtonToolbarProps extends HasTag {
     role?: string;
     justified?: boolean;
 }
 
-export interface ButtonCloseProps {
-    size?: BasicSize;
+export interface ButtonCloseProps extends HasSize {
     white?: boolean;
     ariaLabel?: string;
     disabled?: boolean;

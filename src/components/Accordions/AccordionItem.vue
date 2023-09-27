@@ -3,8 +3,12 @@ import AccordionHeader from "@/components/Accordions/AccordionHeader.vue";
 import AccordionBody from "@/components/Accordions/AccordionBody.vue";
 import Collapse from "@/components/Accordions/Collapse.vue";
 import AccordionButton from "@/components/Accordions/AccordionButton.vue";
-import {inject, onMounted, Ref, ref} from "vue";
-import {AccordionItemProps} from "@/components/Accordions/index";
+import {inject, onMounted, ref} from "vue";
+import {
+	AccordionItemProps,
+	AccordionRegisterItemInjectionKey,
+	AccordionToggleItemInjectionKey
+} from "@/components/Accordions/index";
 
 withDefaults(defineProps<AccordionItemProps>(), {
 	tag: 'div',
@@ -14,12 +18,12 @@ withDefaults(defineProps<AccordionItemProps>(), {
 const isShown = ref<boolean>(false);
 
 //inject  registerItem from Accordion
-const registerItem = inject<(item: Ref<boolean>) => void>('registerItem');
+const registerItem = inject(AccordionRegisterItemInjectionKey);
 
 //register item
 onMounted(() => registerItem(isShown));
 
-const toggleItem = inject<(item: Ref<boolean>) => void>('toggleItem');
+const toggleItem = inject(AccordionToggleItemInjectionKey);
 
 const showItem = () => toggleItem(isShown);
 </script>

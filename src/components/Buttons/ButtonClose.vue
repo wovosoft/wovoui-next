@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<ButtonCloseProps>(), {
 const attrs = computed(() => ({
 	type: "button" as ButtonHTMLAttributes['type'],
 	disabled: props.disabled,
-	ariaLabel: props.ariaLabel,
+	'aria-label': props.ariaLabel,
 	class: [
 		"btn-close",
 		{

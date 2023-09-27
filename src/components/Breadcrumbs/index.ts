@@ -2,7 +2,7 @@ import {HasTag} from "@/composables/useCommonProps";
 import {RouteRecordRaw} from "vue-router";
 
 export interface BreadcrumbProps extends HasTag {
-    items?: any[];
+    items?: BreadcrumbItemProps[];
     divider?: string;
 }
 
@@ -18,4 +18,5 @@ export interface BreadcrumbItemProps extends HasTag {
     target?: '_blank' | '_self' | '_parent' | '_top' | string;
     to?: RouteRecordRaw;
     href?: string;
+    text?: string;
 }

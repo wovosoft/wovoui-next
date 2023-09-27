@@ -1,5 +1,5 @@
 <template>
-	<component :is="tag" :class="classes" v-bind="attributes">
+	<component :is="tag" v-bind="attrs">
 		<template v-if="isRouterInstalled && to">
 			<router-link :to="to">
 				<slot></slot>
@@ -28,16 +28,15 @@ const props = withDefaults(defineProps<BreadcrumbItemProps>(), {
 	href: "#"
 });
 
-const attributes = computed(() => {
-	return {
-		ariaCurrent: props.ariaCurrent
-	}
-});
 const isRouterInstalled = computed(() => !!getCurrentInstance()?.appContext.config.globalProperties.$router);
-const classes = computed(() => [
-	"breadcrumb-item",
-	{
-		"active": props.active
-	}
-]);
+
+const attrs = computed(() => ({
+	'aria-current': props.ariaCurrent,
+	class: [
+		"breadcrumb-item",
+		{
+			"active": props.active
+		}
+	]
+}));
 </script>

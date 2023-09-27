@@ -1,40 +1,20 @@
 <script setup lang="ts">
 import {onMounted, provide, Ref, ref, useModel, watch} from "vue";
-import {AccordionProps} from "@/components/Accordions/index";
+import {
+	AccordionActiveIndex,
+	AccordionAlwaysOpenInjectionKey,
+	AccordionItemIndexInjectionKey,
+	AccordionProps, AccordionRegisterItemInjectionKey,
+	AccordionToggleItemInjectionKey
+} from "@/components/Accordions";
 
 const props = withDefaults(defineProps<AccordionProps>(), {
 	tag: 'div',
 	alwaysOpen: false,
 });
 
-const model = useModel(props, 'modelValue');
-
-onMounted(() => {
-	if (typeof props.modelValue === 'number') {
-		toggleItem(props.modelValue);
-	}
-});
-
-watch(model, (value, oldValue) => {
-	if (value === oldValue) {
-		toggleItem(value)
-	}
-});
-
+const model = useModel(props, 'modelValue', {local: true});
 const items = ref<Ref<boolean>[]>([]);
-
-//let the Accordion know if it should always be open
-provide('alwaysOpen', props.alwaysOpen);
-provide('activeItemIndex', model.value);
-
-/**
- * Register an item with the accordion.
- *
- * @param item
- */
-provide('registerItem', (item: Ref<boolean>) => {
-	items.value.push(item);
-});
 
 const toggleItem = (item: Ref<boolean> | number) => {
 	let index: number;
@@ -61,11 +41,35 @@ const toggleItem = (item: Ref<boolean> | number) => {
 	item.value = !item.value;
 	model.value = index;
 };
+
+onMounted(() => {
+	if (typeof props.modelValue === 'number') {
+		toggleItem(props.modelValue);
+	}
+});
+
+watch(model, (value, oldValue) => {
+	if (value === oldValue) {
+		toggleItem(value)
+	}
+});
+
+//let the Accordion know if it should always be open
+provide(AccordionAlwaysOpenInjectionKey, props.alwaysOpen);
+provide(AccordionActiveIndex, model.value);
+
+/**
+ * Register an item with the accordion.
+ *
+ * @param item
+ */
+provide(AccordionRegisterItemInjectionKey, item => items.value.push(item));
+
 //trigger active item and hide others
-provide('toggleItem', toggleItem);
+provide(AccordionToggleItemInjectionKey, toggleItem);
 
 //returns index of AccordionItem with respect to its parent Accordion
-provide('myIndexInAccordion', (item: Ref<boolean>): number => items.value.indexOf(item));
+provide(AccordionItemIndexInjectionKey, item => items.value.indexOf(item));
 </script>
 
 <template>

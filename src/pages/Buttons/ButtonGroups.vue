@@ -69,6 +69,13 @@ import ButtonToolbar from "@/components/Buttons/ButtonToolbar.vue";
             <Button variant="danger">Middle</Button>
             <Button variant="primary">Right</Button>
         </ButtonGroup>
+	    
+	    <h3>Justified</h3>
+        <ButtonGroup justified>
+            <Button variant="success">Left</Button>
+            <Button variant="danger">Middle</Button>
+            <Button variant="primary">Right</Button>
+        </ButtonGroup>
 
 
     </div>

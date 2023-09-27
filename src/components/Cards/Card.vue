@@ -1,38 +1,38 @@
 <template>
 	<component :is="tag" :class="classes">
 		<CardImage
-			v-if="imageProps && (imageProps.position==='top' || !imageProps.position)"
-			v-bind="imageProps"
+			v-if="image && (image.position==='top' || !image.position)"
+			v-bind="image"
 		/>
 		
-		<CardHeader v-if="$slots.header || header" v-bind="headerProps">
+		<CardHeader v-if="$slots.header || header?.text" v-bind="header">
 			<slot name="header">
-				{{ header }}
+				{{ header?.text }}
 			</slot>
 		</CardHeader>
 		
-		<CardBody v-bind="bodyProps" :overlay="imageProps?.overlay">
-			<CardTitle v-if="$slots.title || title" :tag="titleTag">
+		<CardBody v-bind="body" :overlay="image?.overlay">
+			<CardTitle v-if="$slots.title || title?.text" :tag="title?.tag">
 				<slot name="title">
-					{{ title }}
+					{{ title?.text }}
 				</slot>
 			</CardTitle>
-			<CardSubTitle v-if="$slots.subTitle || subTitle" :tag="subtitleTag">
+			<CardSubTitle v-if="$slots.subTitle || subTitle?.text" :tag="subTitle.tag">
 				<slot name="subTitle">
-					{{ subTitle }}
+					{{ subTitle?.text }}
 				</slot>
 			</CardSubTitle>
 			<slot></slot>
 		</CardBody>
 		
-		<CardFooter v-if="$slots.footer || footer" v-bind="footerProps">
+		<CardFooter v-if="$slots.footer || footer?.text" v-bind="footer">
 			<slot name="footer">
-				{{ footer }}
+				{{ footer?.text }}
 			</slot>
 		</CardFooter>
 		<CardImage
-			v-if="imageProps && imageProps.position==='bottom'"
-			v-bind="imageProps"
+			v-if="image && image.position==='bottom'"
+			v-bind="image"
 		/>
 	</component>
 </template>
@@ -62,50 +62,3 @@ const classes = computed(() => [
 ]);
 
 </script>
-<style>
-@media (min-width: 576px) {
-	.card-deck {
-		display: flex;
-		flex-flow: row wrap;
-	}
-	
-	.card-deck .card {
-		flex: 1 0 0;
-		margin-right: 15px;
-		margin-bottom: 0;
-		margin-left: 15px
-	}
-	
-	.card-deck .card:first-child {
-		margin-left: 0;
-	}
-	
-	.card-deck .card:last-child {
-		margin-right: 0;
-	}
-}
-
-.card-columns .card {
-	margin-bottom: .75rem
-}
-
-@media (min-width: 576px) {
-	.card-columns {
-		-webkit-column-count: 3;
-		-moz-column-count: 3;
-		column-count: 3;
-		-webkit-column-gap: 1.25rem;
-		-moz-column-gap: 1.25rem;
-		grid-column-gap: 1.25rem;
-		column-gap: 1.25rem;
-		orphans: 1;
-		widows: 1
-	}
-	
-	.card-columns .card {
-		display: inline-block;
-		width: 100%
-	}
-}
-
-</style>

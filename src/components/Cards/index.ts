@@ -1,3 +1,5 @@
+import CardSubTitle from "@/components/Cards/CardSubTitle.vue";
+
 export {default as Card} from "./Card.vue";
 export {default as CardBody} from "./CardBody.vue";
 export {default as CardFooter} from "./CardFooter.vue";
@@ -71,27 +73,25 @@ export interface CardBodyProps extends HasTag, HasVariant, HasBorderVariant, Has
     titleTag?: keyof HTMLElementTagNameMap;
 }
 
+interface TextProps {
+    text?: string;
+}
+
 export interface CardProps extends HasTag, HasBgVariant, HasBorderVariant, HasTextVariant, HasTextBgVariant {
     noBody?: boolean;
 
     align?: string;
 
-    bodyProps?: CardBodyProps;
+    header?: CardHeaderProps & TextProps;
+    body?: CardBodyProps & TextProps;
+    footer?: CardFooterProps & TextProps;
 
-    footer?: string;
-    footerProps?: CardFooterProps;
-
-    header?: string;
-    headerProps?: CardHeaderProps;
-
-    imageProps?: CardImageProps;
+    image?: CardImageProps & TextProps;
 
     overlay?: boolean;
 
-    title?: string;
-    titleTag?: keyof HTMLElementTagNameMap;
+    title?: CardTitleProps & TextProps;
 
-    subTitle?: string;
-    subtitleTag?: keyof HTMLElementTagNameMap;
+    subTitle?: CardSubTitleProps & TextProps;
 }
 

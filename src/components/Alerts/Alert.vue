@@ -11,9 +11,6 @@ const props = withDefaults(defineProps<AlertProps>(), {
 	show: false
 });
 
-const CLASS_NAME_FADE = 'fade'
-const CLASS_NAME_SHOW = 'show'
-
 const emit = defineEmits<{
 	close: [value: Event];
 	closed: [value: Event];
@@ -49,7 +46,7 @@ const close = (e: Event & { target: Element }) => {
 	isShown.value = false;
 	
 	const alertElement = e.target.closest('.alert');
-	const isAnimated = alertElement?.classList.contains(CLASS_NAME_FADE);
+	const isAnimated = alertElement?.classList.contains('fade');
 	
 	if (!isAnimated) {
 		shouldRender.value = false;
@@ -90,7 +87,7 @@ const attrs = computed(() => ({
 			["alert-" + props.variant]: props.variant,
 			"alert-dismissible": props.dismissible,
 			"fade": props.dismissible,
-			[CLASS_NAME_SHOW]: isShown.value
+			show: isShown.value
 		}
 	]
 }));

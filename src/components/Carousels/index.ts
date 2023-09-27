@@ -1,5 +1,15 @@
 import {HasTag} from "@/composables/useCommonProps";
 
+//Exports
+export {default as Carousel} from "./Carousel.vue";
+export {default as CarouselCaption} from "./CarouselCaption.vue";
+export {default as CarouselControl} from "./CarouselControl.vue";
+export {default as CarouselIndicatorButton} from "./CarouselIndicatorButton.vue";
+export {default as CarouselIndicators} from "./CarouselIndicators.vue";
+export {default as CarouselInner} from "./CarouselInner.vue";
+export {default as CarouselItem} from "./CarouselItem.vue";
+
+//Types
 export interface CarouselCaptionProps extends HasTag {
 
 }
