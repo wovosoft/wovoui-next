@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed} from "vue";
 import {generateClasses} from "@/composables/useHelpers";
-import {PlaceholderProps} from "@/components/Ui/index";
+import {PlaceholderProps} from "@/components/Ui";
 
 const props = withDefaults(defineProps<PlaceholderProps>(), {
 	tag: "div",
@@ -25,7 +25,3 @@ const classes = computed(() => [
 		<slot></slot>
 	</component>
 </template>
-
-<style scoped>
-
-</style>
