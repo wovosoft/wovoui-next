@@ -33,6 +33,7 @@ const {toggle, states} = useCollapse(
 );
 
 const classes = computed(() => ({
+	"navbar-collapse": props.isNav,
 	'accordion-collapse': props.accordion,
 	'collapse': !states.transitioning,
 	'collapsing': states.transitioning,

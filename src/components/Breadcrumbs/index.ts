@@ -1,6 +1,7 @@
 import {HasTag} from "@/composables/useCommonProps";
 import {RouteRecordRaw} from "vue-router";
 
+
 export interface BreadcrumbProps extends HasTag {
     items?: BreadcrumbItemProps[];
     divider?: string;

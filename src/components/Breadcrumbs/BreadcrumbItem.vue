@@ -1,9 +1,7 @@
 <template>
 	<component :is="tag" v-bind="attrs">
-		<template v-if="isRouterInstalled && to">
-			<router-link :to="to">
-				<slot></slot>
-			</router-link>
+		<template v-if="active">
+			<slot></slot>
 		</template>
 		<template v-else-if="href">
 			<a :href="href">
@@ -17,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, getCurrentInstance} from "vue";
+import {computed} from "vue";
 import {BreadcrumbItemProps} from "@/components/Breadcrumbs/index";
 
 const props = withDefaults(defineProps<BreadcrumbItemProps>(), {
@@ -28,10 +26,10 @@ const props = withDefaults(defineProps<BreadcrumbItemProps>(), {
 	href: "#"
 });
 
-const isRouterInstalled = computed(() => !!getCurrentInstance()?.appContext.config.globalProperties.$router);
 
 const attrs = computed(() => ({
 	'aria-current': props.ariaCurrent,
+	target: props.target,
 	class: [
 		"breadcrumb-item",
 		{

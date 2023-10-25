@@ -20,6 +20,7 @@ import {NavItemProps} from "@/components/Navigation/index";
 withDefaults(defineProps<NavItemProps>(), {
     tag: 'li',
     linkTag: 'a',
-    href: '#'
+    href: '#',
+	ariaCurrent:'page',
 });
 </script>

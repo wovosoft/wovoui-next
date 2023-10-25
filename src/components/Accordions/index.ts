@@ -36,6 +36,7 @@ export interface AccordionProps extends HasTag {
 }
 
 export interface CollapseProps extends HasTag {
+    isNav?: boolean;
     horizontal?: boolean;
     show?: boolean;
     modelValue?: boolean;
@@ -49,3 +50,5 @@ export const AccordionItemIndexInjectionKey: InjectionKey<(item: Ref<boolean>) =
 export const AccordionAlwaysOpenInjectionKey: InjectionKey<boolean> = Symbol('Accordion Always Open');
 export const AccordionRegisterItemInjectionKey: InjectionKey<(item: Ref<boolean>) => void | number> = Symbol('Accordion Register Item');
 export const AccordionActiveIndex: InjectionKey<number> = Symbol('Accordion Active Index');
+
+export const AccordionIsCollapsedInjectionKey: InjectionKey<Ref<boolean>> = Symbol('Accordion Is Collapsed');

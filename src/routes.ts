@@ -10,7 +10,7 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     {
         path: '/accordions',
         component: () => import('@/pages/Accordions/Index.vue'),
-        meta: {title: 'Accordions'},
+        meta: {title: 'Accordions/Collapse'},
         name: 'pages.accordions.index'
     },
     {
@@ -18,6 +18,18 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         component: () => import('@/pages/Alerts/Index.vue'),
         meta: {title: 'Alerts'},
         name: 'pages.alerts.index'
+    },
+    {
+        path: '/ui/badges',
+        component: () => import('@/pages/Ui/Badges.vue'),
+        meta: {title: 'Badges'},
+        name: 'pages.ui.badges'
+    },
+    {
+        path: '/breadcrumbs',
+        component: () => import('@/pages/Breadcrumbs/Index.vue'),
+        meta: {title: 'Breadcrumbs'},
+        name: 'pages.breadcrumbs.index'
     },
     {
         path: '/buttons',
@@ -50,10 +62,22 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         name: 'pages.caousels.index'
     },
     {
+        path: '/dropdowns',
+        component: () => import('@/pages/Dropdowns/Index.vue'),
+        meta: {title: 'Dropdowns'},
+        name: 'pages.dropdowns.index'
+    },
+    {
         path: '/list-groups',
         component: () => import('@/pages/ListGroups/Index.vue'),
         meta: {title: 'List Groups'},
         name: 'pages.list-groups.index'
+    },
+    {
+        path: '/modals',
+        component: () => import('@/pages/Modals/Index.vue'),
+        meta: {title: 'Modals'},
+        name: 'pages.modals.index'
     },
     {
         path: '/tables',
@@ -74,18 +98,6 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         name: 'pages.ui.ratios'
     },
     {
-        path: '/ui/badges',
-        component: () => import('@/pages/Ui/Badges.vue'),
-        meta: {title: 'Badges'},
-        name: 'pages.ui.badges'
-    },
-    {
-        path: '/dropdowns',
-        component: () => import('@/pages/Dropdowns/Index.vue'),
-        meta: {title: 'Dropdowns'},
-        name: 'pages.dropdowns.index'
-    },
-    {
         path: '/forms',
         component: () => import('@/pages/Forms/Index.vue'),
         meta: {title: 'Forms'},
@@ -97,12 +109,7 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         meta: {title: 'Autocompletes'},
         name: 'pages.forms.autocompletes'
     },
-    {
-        path: '/modals',
-        component: () => import('@/pages/Modals/Index.vue'),
-        meta: {title: 'Modals'},
-        name: 'pages.modals.index'
-    },
+
     {
         path: '/navigation',
         component: () => import('@/pages/Navigation/Index.vue'),

@@ -23,6 +23,7 @@ const emit = defineEmits<{
 	hide: [value: boolean]
 	hidden: [value: boolean],
 	'update:modelValue': [value: boolean]
+	'update:isShown': [value: boolean]
 }>();
 
 //@todo: implement later
@@ -45,7 +46,8 @@ const dropDirection = computed(() => directionMap[props.dir] || "dropdown");
 const classes = computed(() => [
 	dropDirection.value,
 	{
-		"btn-group": props.split || props.asGroup,
+		'nav-item': props.isNav,
+		"btn-group": (props.split || props.asGroup) && !props.isNav,
 		"dropdown-center": props.dir === 'bottom' && props.align === 'center',
 		"dropup-center": props.dir === 'top' && props.align === 'center',
 	}
@@ -68,6 +70,20 @@ onMounted(() => {
 
 const ToggleButton = defineComponent({
 	setup(toggleProps, {slots}) {
+		if (props.isNav) {
+			return () => h(
+				'a',
+				{
+					role: 'button',
+					class: [
+						"nav-link",
+						"dropdown-toggle",
+					],
+				},
+				props.text
+			)
+		}
+		
 		return () => h(
 			Button,
 			{
