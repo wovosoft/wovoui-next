@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {computed} from "vue";
-import {VrProps} from "@/components/Ui/index";
+import {VrProps} from "@/components/Ui";
 
 const props = withDefaults(defineProps<VrProps>(), {
 	tag: 'div'

@@ -1,12 +1,15 @@
+import {HasBgVariant, HasTag, HasTextBgVariant, HasTextVariant, HasVariant} from "@/composables/useCommonProps";
+import {AspectRatio, RectangularPosition, PlaceholderSize, ResponsiveNumber} from "@/composables/useResponsive";
+
+
+//Exports
 export {default as Badge} from "./Badge.vue";
 export {default as Figure} from "./Figure.vue";
 export {default as Placeholder} from "./Placeholder.vue";
 export {default as Ratio} from "./Ratio.vue";
 export {default as Vr} from "./Vr.vue";
 
-import {HasBgVariant, HasTag, HasTextBgVariant, HasTextVariant, HasVariant} from "@/composables/useCommonProps";
-import {AspectRatio, RectangularPosition, PlaceholderSize, ResponsiveNumber} from "@/composables/useResponsive";
-
+//Interfaces
 export interface FigureProps {
     /**
      * Figure Caption

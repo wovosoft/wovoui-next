@@ -60,11 +60,12 @@ export interface TableProps extends CommonTableProps {
     captionTop?: boolean;
 }
 
-export const getTableCommonClasses = (props: { [key: string]: any }) => computed(() => ({
-    ["table-" + props.variant]: props.variant,
-    "table-active": props.active,
-    ["align-" + props.align]: !!props.align
-}));
+export const getTableCommonClasses = (props: { [key: string]: boolean | string }) =>
+    computed(() => ({
+        ["table-" + props.variant]: props.variant,
+        "table-active": props.active,
+        ["align-" + props.align]: !!props.align
+    }));
 
 export interface DatatableFieldType {
     key: string;
@@ -76,13 +77,13 @@ export interface DatatableFieldType {
     tdClass?: StyleValue;
 }
 
-export interface DatatableItemType extends Record<string, any> {
+export interface DatatableItemType<T = any> extends Record<string, T> {
 
 }
 
 export interface DatatableProps extends TableProps {
     fields: DatatableFieldType[] | string[];
-    items: DatatableItemType[],
+    items: DatatableItemType<any>[],
     headVariant?: ColorVariant;
     bodyVariant?: ColorVariant;
     footVariant?: ColorVariant;

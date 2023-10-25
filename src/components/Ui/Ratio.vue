@@ -1,5 +1,5 @@
 <template>
-    <component :is="tag" :class="classes" :style="styles">
+    <component :is="tag" v-bind="attrs">
         <slot/>
     </component>
 </template>
@@ -15,7 +15,7 @@
  * );
  */
 
-import {computed} from "vue";
+import {computed, StyleValue} from "vue";
 import {getAspectRatios} from "@/composables/useResponsive";
 import {isNumeric} from "@/composables/useHelpers";
 import {AspectProps} from "@/components/Ui/index";
@@ -30,11 +30,12 @@ const props = withDefaults(defineProps<AspectProps>(), {
     ratio: '16x9'
 });
 
-const styles = computed(() => {
+const attrs = computed(() => {
+    let style: StyleValue = null;
     if (isNumeric(props.ratio)) {
-        return {
+        style = {
             "--bs-aspect-ratio": props.ratio ? (props.ratio + "%") : null
-        }
+        };
     }
 
     if (!getAspectRatios.includes(props.ratio) && props.ratio.toString().includes('x')) {
@@ -43,15 +44,18 @@ const styles = computed(() => {
             props.ratio.toString().split("x").map((i: string) => Number(i))
         );
 
-        return {
+        style = {
             "--bs-aspect-ratio": ratios > 0 && ratios !== Infinity ? (ratios + "%") : null
         }
     }
-});
 
-const classes = computed(() => [
-    "ratio", {
-        ["ratio-" + props.ratio]: getAspectRatios.includes(props.ratio)
-    }
-]);
+    return {
+        style,
+        class: [
+            "ratio", {
+                ["ratio-" + props.ratio]: getAspectRatios.includes(props.ratio)
+            }
+        ]
+    };
+})
 </script>
