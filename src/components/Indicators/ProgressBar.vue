@@ -11,11 +11,10 @@ const props = withDefaults(defineProps<ProgressBarProps>(), {
 });
 
 const attrs = computed(() => ({
-	role: "progressbar",
 	style: {width: props.value + '%'},
-	ariaValuenow: props.value,
-	ariaValuemax: props.max,
-	ariaValuemin: props.min,
+	'aria-valuenow': props.value,
+	'aria-valuemax': props.max,
+	'aria-valuemin': props.min,
 	class: [
 		"progress-bar", {
 			["bg-" + props.variant]: props.variant,
@@ -28,7 +27,7 @@ const attrs = computed(() => ({
 
 <template>
 	<component :is="tag" v-bind="attrs">
-		<slot>
+		<slot :value="value">
 			{{ value }}%
 		</slot>
 	</component>

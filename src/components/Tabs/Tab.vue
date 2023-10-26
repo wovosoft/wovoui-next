@@ -54,7 +54,7 @@ watch(visible, value => {
 		setTimeout(() => {
 			states.show = false;
 			states.ariaSelected = false;
-			states.tabindex = -1;
+			// states.tabindex = -1;
 		}, getTransitionDurationFromElement(theRoot.value));
 	}
 });
@@ -75,7 +75,6 @@ onMounted(() => {
 	states.show = props.active;
 	states.ariaSelected = props.active;
 	states.tabindex = props.active ? null : -1;
-	
 	registerTab({
 		uid: getCurrentInstance()?.uid,
 		updateVisibility,

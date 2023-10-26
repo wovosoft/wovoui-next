@@ -80,6 +80,24 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         name: 'pages.modals.index'
     },
     {
+        path: '/navigation',
+        component: () => import('@/pages/Navigation/Index.vue'),
+        meta: {title: 'Navigation'},
+        name: 'pages.navigation.index'
+    },
+    {
+        path: '/sidebars',
+        component: () => import('@/pages/Sidebars/Index.vue'),
+        meta: {title: 'Sidebars'},
+        name: 'pages.sidebars.index'
+    },
+    {
+        path: '/paginations',
+        component: () => import('@/pages/Paginations/Index.vue'),
+        meta: {title: 'Paginations'},
+        name: 'pages.paginations.index'
+    },
+    {
         path: '/tables',
         component: () => import('@/pages/Tables/Index.vue'),
         meta: {title: 'Tables'},
@@ -92,10 +110,34 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         name: 'pages.tables.datatables'
     },
     {
-        path: '/ui/ratio',
-        component: () => import('@/pages/Ui/Ratios.vue'),
-        meta: {title: 'Ratios'},
-        name: 'pages.ui.ratios'
+        path: '/ui',
+        meta: {title: 'UI'},
+        children: [
+            {
+                path: 'placeholders',
+                component: () => import('@/pages/Ui/Placeholders.vue'),
+                meta: {title: 'Placeholders'},
+                name: 'pages.ui.placeholders'
+            },
+            {
+                path: 'ratio',
+                component: () => import('@/pages/Ui/Ratios.vue'),
+                meta: {title: 'Ratios'},
+                name: 'pages.ui.ratios'
+            }
+        ]
+    },
+    {
+        path: '/indicators',
+        meta: {title: 'Indicators'},
+        children: [
+            {
+                path: 'progress',
+                component: () => import('@/pages/Indicators/Index.vue'),
+                meta: {title: 'Progress'},
+                name: 'pages.ui.indicators'
+            },
+        ]
     },
     {
         path: '/forms',
@@ -108,13 +150,6 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         component: () => import('@/pages/Forms/Autocompletes.vue'),
         meta: {title: 'Autocompletes'},
         name: 'pages.forms.autocompletes'
-    },
-
-    {
-        path: '/navigation',
-        component: () => import('@/pages/Navigation/Index.vue'),
-        meta: {title: 'Navigation'},
-        name: 'pages.navigation.index'
     },
     {
         path: '/notifications',

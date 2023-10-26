@@ -1,96 +1,85 @@
 <template>
-    <div :class="classes">
-        <TabContent v-if="end" :class="contentClass">
-            <slot/>
-        </TabContent>
-        <div :class="[{'card-header':card}, headerClass]">
-            <Nav :tabs="true"
-                 :pills="pills"
-                 :fill="fill"
-                 :justified="justified"
-                 :align="align"
-                 :vertical="vertical"
-                 tag="div"
-                 :class="{'card-header-pills':pills,'card-header-tabs':card}">
-                <NavLink
-                    role="tab"
-                    v-for="(tab,tab_index) in tabsMap"
-                    :key="tab_index"
-                    :active="tab.visible"
-                    :aria-selected="tab.states.ariaSelected"
-                    :tabindex="tab.states.tabindex"
-                    @click="active=tab_index"
-                    tag="button">
-                    {{tab.title}}
-                </NavLink>
-            </Nav>
-        </div>
-
-        <TabContent v-if="!end" :class="contentClass">
-            <slot/>
-        </TabContent>
-    </div>
+	<component :is="tag" v-bind="attrs">
+		<component :is="headerTag"  :class="[{'card-header':card}, headerClass]">
+			<Nav :tabs="true"
+			     :pills="pills"
+			     :fill="fill"
+			     :justified="justified"
+			     :align="align"
+			     :vertical="vertical"
+			     tag="div"
+			     role="tablist"
+			     :class="{'card-header-pills':pills,'card-header-tabs':card}">
+				<NavLink
+					role="tab"
+					v-for="(tab,tab_index) in tabsMap"
+					:key="tab_index"
+					:active="tab.visible"
+					:aria-selected="tab.states.ariaSelected"
+					@click="showTab(tab)"
+					tag="button">
+					{{ tab.title }}
+				</NavLink>
+			</Nav>
+		</component>
+		<TabContent :tag="contentTag" v-if="!end" :class="contentClass">
+			<slot/>
+		</TabContent>
+	</component>
 </template>
-
 <script lang="ts" setup>
-import {computed, onMounted, provide, ref, watch} from "vue";
+import {computed, onMounted, provide, ref, useModel} from "vue";
 import {
-    IsCardTabsInjection,
-    RegisterTabInjection,
-    TabMapItem,
-    TabsProps,
-    UnregisterTabInjection
-} from "@/components/Tabs";
-import TabContent from "@/components/Tabs/TabContent.vue";
+	IsCardTabsInjection,
+	RegisterTabInjection,
+	TabMapItem,
+	TabsProps,
+	UnregisterTabInjection
+} from "@/components/Tabs/index";
 import NavLink from "@/components/Navigation/NavLink.vue";
+import Nav from "@/components/Navigation/Nav.vue";
+import TabContent from "@/components/Tabs/TabContent.vue";
 
-const props = withDefaults(defineProps<TabsProps>(), {});
-
-const emit = defineEmits<{
-    (e: 'update:modelValue', value: number | null | undefined): void
-}>();
-
-
-const active = ref<number | null>();
-onMounted(() => {
-    if (props.modelValue !== null) {
-        active.value = props.modelValue;
-    } else if (tabsMap.value.length > 0) {
-        active.value = tabsMap.value.findIndex(i => i.visible);
-    }
+const props = withDefaults(defineProps<TabsProps>(), {
+	tag: 'div',
+	headerTag: 'div',
+	contentTag: 'div',
+	modelValue: 0
 });
 
-/**
- * Watchers
- */
 
-watch(() => props.modelValue, value => {
-    if (value !== active.value) {
-        active.value = value;
-    }
-});
-
-watch(active, (index: number | null | undefined) => {
-    emit('update:modelValue', index);
-
-    //find visible tabs and then hide. Theoretically, there should have only one visible tab in a
-    //certain tabs. But, if there are multiple, we do the following actions to perform everything properly
-    //without any risk
-    tabsMap.value
-        .filter(tab => tab.visible)
-        .forEach(tab => {
-            tab.updateVisibility(false);
-        });
-    //show target tab
-    tabsMap.value[index].updateVisibility(true);
-});
-
-const classes = computed(() => ({
-    card: props.card,
-    'd-flex': props.vertical,
-    'align-items-start': props.vertical
+const attrs = computed(() => ({
+	class: {
+		card: props.card,
+		'd-flex': props.vertical,
+		'align-items-start': props.vertical
+	}
 }));
 
+
+const active = useModel(props, 'modelValue', {local: true})
+
+onMounted(() => {
+	if (tabsMap.value.length > 0) {
+		showTab(tabsMap.value[props.modelValue]);
+	}
+});
+
+const showTab = (tab: TabMapItem) => {
+	const index = tabsMap.value.findIndex(t => t.uid === tab.uid);
+	if (index > -1) {
+		tabsMap.value.forEach((item: TabMapItem, idx: number) => {
+			if (idx === index) {
+				tabsMap.value[index].visible = true;
+				tabsMap.value[index].updateVisibility(true);
+			} else if (tabsMap.value[idx].visible) {
+				item.visible = false;
+				item.updateVisibility(false);
+			}
+		});
+		active.value = index;
+	}
+}
 
 /**
  * Records of subscribed child tabs
@@ -106,10 +95,10 @@ provide(RegisterTabInjection, tab => tabsMap.value.push(tab));
  * Provide Method to Child method to be unsubscribed as tab
  */
 provide(UnregisterTabInjection, (uid: number) => {
-    let index = tabsMap.value.findIndex(t => t.uid === uid);
-    if (index > -1) {
-        tabsMap.value.splice(index, 1);
-    }
+	let index = tabsMap.value.findIndex(t => t.uid === uid);
+	if (index > -1) {
+		tabsMap.value.splice(index, 1);
+	}
 });
 
 /**

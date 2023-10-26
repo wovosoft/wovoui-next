@@ -7,6 +7,8 @@ import Dropdown from "@/components/Dropdowns/Dropdown.vue";
 import DropdownItem from "@/components/Dropdowns/DropdownItem.vue";
 import DropdownDivider from "@/components/Dropdowns/DropdownDivider.vue";
 import Collapse from "@/components/Accordions/Collapse.vue";
+import Tabs from "@/components/Tabs/Tabs.vue";
+import Tab from "@/components/Tabs/Tab.vue";
 </script>
 
 <template>
@@ -33,5 +35,30 @@ import Collapse from "@/components/Accordions/Collapse.vue";
 				</Collapse>
 			</template>
 		</Navbar>
+		
+		
+		<h1>Tabs</h1>
+		<Tabs>
+			<Tab v-for="i in 5" :title="'Tab '+i" :active="i===0">
+				This is tab {{ i }}<br/>
+				This is tab {{ i }}<br/>
+				This is tab {{ i }}<br/>
+				This is tab {{ i }}<br/>
+				This is tab {{ i }}<br/>
+				This is tab {{ i }}<br/>
+			</Tab>
+		</Tabs>
+		
+		<h1>Tabs as Cards</h1>
+		<Tabs card>
+			<Tab v-for="i in 5" :title="'Tab '+i" :active="i===0">
+				This is tab {{ i }}<br/>
+				This is tab {{ i }}<br/>
+				This is tab {{ i }}<br/>
+				This is tab {{ i }}<br/>
+				This is tab {{ i }}<br/>
+				This is tab {{ i }}<br/>
+			</Tab>
+		</Tabs>
 	</div>
 </template>

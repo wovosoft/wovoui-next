@@ -8,7 +8,9 @@ const props = withDefaults(defineProps<PlaceholderProps>(), {
 });
 
 const classes = computed(() => [
-	"placeholder",
+	{
+		placeholder: !props.glow
+	},
 	generateClasses({
 		placeholderGlow: props.glow,
 		placeholderWave: props.wave,

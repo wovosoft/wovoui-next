@@ -10,9 +10,23 @@ import ListGroup from "@/components/ListGroups/ListGroup.vue";
 		<Row class="row">
 			<Col :md="3" :sm="12">
 				<ListGroup>
-					<router-link v-for="r in routes" :to="r" class="list-group-item list-group-item-action">
-						{{ r.meta?.['title'] }}
-					</router-link>
+					<template v-for="r in routes">
+						<template v-if="r.children">
+							<div class="list-group-item list-group-item-action">
+								{{ r.meta?.['title'] }}
+								<ul>
+									<li v-for="child in r.children">
+										<router-link :to="child">
+											{{ child.meta?.['title'] }}
+										</router-link>
+									</li>
+								</ul>
+							</div>
+						</template>
+						<router-link v-else :to="r" class="list-group-item list-group-item-action">
+							{{ r.meta?.['title'] }}
+						</router-link>
+					</template>
 				</ListGroup>
 			</Col>
 			<Col>

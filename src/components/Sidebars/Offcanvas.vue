@@ -21,6 +21,7 @@
 				</slot>
 			</OffcanvasHeader>
 			<OffcanvasBody :style="bodyStyle" :class="bodyClass">
+				{{ shown }}
 				<slot></slot>
 			</OffcanvasBody>
 		</component>
@@ -34,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ref, watch} from "vue";
+import {computed, ref, useModel, watch} from "vue";
 import {getTransitionDurationFromElement} from "@/composables/useHelpers";
 import OffcanvasHeader from "@/components/Sidebars/OffcanvasHeader.vue";
 import OffcanvasBody from "@/components/Sidebars/OffcanvasBody.vue";
@@ -62,7 +63,7 @@ const emit = defineEmits<{
 }>();
 
 //data refs
-const shown = ref<boolean>(false);              //inner state
+const shown = useModel(props, 'modelValue', {local: true});              //inner state
 const activeBackdrop = ref<boolean>(false);     //should backdrop be generated
 const showBackdrop = ref<boolean>(false);       //for 'show' class of backdrop element
 
@@ -97,6 +98,7 @@ const show = () => {
 	setTimeout(() => {
 		isShowing.value = false;
 		isShown.value = true;
+		shown.value = true;
 		emit("shown", true);
 		//try focusing the main element
 		//in order to focus the div element, it needs to have tabindex property set
@@ -121,11 +123,12 @@ const hide = () => {
 	emit("update:modelValue", false);
 	emit("hiding", true);
 	
-	
 	setTimeout(() => {
 		activeBackdrop.value = false;
 		isHiding.value = false;
 		isShown.value = false;
+		shown.value = false;
+		
 		emit("hidden", true);
 		//@ts-ignore
 		//focus back to the last active element

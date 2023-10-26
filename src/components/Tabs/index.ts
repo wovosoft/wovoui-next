@@ -1,13 +1,14 @@
-import {ComputedRef, InjectionKey} from "vue";
+import {ComputedRef, InjectionKey, Ref} from "vue";
 import {ClassType} from "@/index";
+import {HasTag} from "@/composables/useCommonProps";
 
 export {default as Tabs} from "./Tabs.vue";
 export {default as Tab} from "./Tab.vue";
 export {default as TabContent} from "./TabContent.vue";
 
-export const RegisterTabInjection: InjectionKey<(item: TabMapItem) => any> = Symbol();
-export const UnregisterTabInjection: InjectionKey<(item: number | undefined) => any> = Symbol();
-export const IsCardTabsInjection: InjectionKey<ComputedRef<boolean>> = Symbol();
+export const RegisterTabInjection: InjectionKey<(item: TabMapItem) => any> = Symbol('Register Tab Items');
+export const UnregisterTabInjection: InjectionKey<(item: number | undefined) => any> = Symbol('Unregister Tab Items');
+export const IsCardTabsInjection: InjectionKey<ComputedRef<boolean>> = Symbol('Determines if Tab is Card');
 
 export interface TabMapItem {
     uid?: number | string;
@@ -15,10 +16,10 @@ export interface TabMapItem {
     title?: string;
     visible?: boolean;
     states?: {
-        active: boolean;
-        show: boolean;
-        ariaSelected: boolean | null;
-        tabindex: number | null;
+        active?: boolean;
+        show?: boolean;
+        ariaSelected?: boolean | null;
+        tabindex?: number | null;
     }
 }
 
@@ -27,7 +28,9 @@ export interface TabProps {
     title?: string;
 }
 
-export interface TabsProps {
+export interface TabsProps extends HasTag {
+    headerTag?: keyof HTMLElementTagNameMap;
+    contentTag?: keyof HTMLElementTagNameMap;
     /**
      * Index of Active Tab
      * @supported 0 to length of tabs

@@ -1,3 +1,5 @@
+import {StyleValue} from "vue";
+
 export {default as Progress} from "./Progress.vue";
 export {default as ProgressBar} from "./ProgressBar.vue";
 export {default as Spinner} from "./Spinner.vue";
@@ -22,7 +24,7 @@ export interface ProgressProps extends HasTag, HasVariant {
     showValue?: boolean;
     striped?: boolean;
     animated?: boolean;
-    height?: string;
+    height?: CSSNumberish
 }
 
 export interface SpinnerProps extends HasTag, HasVariant {

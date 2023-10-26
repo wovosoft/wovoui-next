@@ -13,8 +13,8 @@ const props = withDefaults(defineProps<ProgressProps>(), {
 </script>
 
 <template>
-	<component :is="tag" class="progress" :style="{height: props.height}">
-		<slot>
+	<component :is="tag" class="progress" role="progressbar" :style="{height: props.height}">
+		<slot :value="value">
 			<ProgressBar
 				:tag="barTag"
 				:value="value"

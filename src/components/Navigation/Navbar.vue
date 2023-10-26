@@ -30,6 +30,11 @@ const props = withDefaults(defineProps<NavbarProps>(), {
 	variant: 'light',
 	bgVariant: 'light',
 	expandsOn: 'lg',
+	/**
+	 * Navbar's are fluid by default
+	 * @see https://getbootstrap.com/docs/5.0/layout/containers/#fluid-containers
+	 */
+	fluid: true
 });
 
 const collapsed = ref<boolean>(false);

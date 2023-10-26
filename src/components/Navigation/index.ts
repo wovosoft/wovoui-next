@@ -1,7 +1,7 @@
 import {HasBgVariant, HasTag} from "@/composables/useCommonProps";
 import {RouteRecordRaw} from "vue-router";
 import {ScreenSize} from "@/composables/useResponsive";
-import {ThemeVariant} from "@/index";
+import {BaseAlignment, BaseVerticalAlignment, ThemeVariant} from "@/index";
 import {BasicSize} from "@/components/Buttons";
 import {Icons} from "@wovosoft/wovoui-icons/types";
 import {ColorVariant} from "@/composables/useColorSchemes";
@@ -56,7 +56,7 @@ export interface NavbarToggleProps {
 }
 
 export interface NavProps extends HasTag {
-    align?: 'end' | 'start' | 'center';
+    align?: BaseAlignment;
     vertical?: boolean;
     pills?: boolean;
     fill?: boolean;
@@ -64,6 +64,7 @@ export interface NavProps extends HasTag {
     small?: boolean;
     tabs?: boolean;
     navs?: boolean;
+    underline?: boolean;
 }
 
 export interface NavbarNavProps extends NavProps {
@@ -82,8 +83,8 @@ export interface NavbarProps extends HasBgVariant {
     size?: ScreenSize;
     toggleEnabled?: boolean;
     variant?: ThemeVariant;
-    fixed?: 'top' | 'bottom';
-    sticky?: 'top' | 'bottom';
+    fixed?: Exclude<BaseVerticalAlignment, 'center'>;
+    sticky?: Exclude<BaseVerticalAlignment, 'center'>;
     expandsOn?: ScreenSize | ScreenSize[]
 }
 
