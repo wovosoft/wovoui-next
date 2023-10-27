@@ -124,8 +124,8 @@ export const isFalse = (value: any): boolean => value === false;
 export const isBoolean = (value: any): boolean => typeof value === 'boolean';
 
 //@todo: need some more detailed implementation
-export const isTruthy = (value: any) => !!value;
-export const isFalsy = (value: any) => !isTrue(value);
+export const isTruthy = (value: any) => isTrue(value) || value === 'true' || value === 1 || value === '1' || !!value;
+export const isFalsy = (value: any) => isFalse(value) || value === 'false' || value === 0 || value === '0' || !!!value;
 
 export const isNumber = (value: any): boolean => typeof value === 'number';
 

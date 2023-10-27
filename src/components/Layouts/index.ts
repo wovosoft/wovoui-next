@@ -3,6 +3,7 @@ export {default as Row} from "./Row.vue";
 export {default as Col} from "./Col.vue";
 export {default as Grid} from "./Grid.vue";
 export {default as GridCol} from "./GridCol.vue";
+export type ContainerSize = ScreenSize | 'fluid';
 
 import {HasLayoutCols, HasLayoutGutters, HasLayoutOrders, HasTag} from "@/composables/useCommonProps";
 import {
@@ -13,16 +14,17 @@ import {
 
 export interface ContainerProps extends HasTag {
     fluid?: boolean;
-    size?: ScreenSize;
+    size?: ContainerSize | ContainerSize[];
 }
 
 export interface RowProps extends HasTag, HasLayoutCols, HasLayoutGutters {
-    alignItems?: ColAlignment;
-    justifyContent?: JustifyContentAlignments;
+    align?: ColAlignment;
+    alignContent?: JustifyContentAlignments;
 
 }
 
 export interface ColProps extends HasTag, HasLayoutCols, HasLayoutOrders {
-    alignSelf?: ColAlignment;
+    align?: ColAlignment;
     justifyContent?: JustifyContentAlignments;
 }
+

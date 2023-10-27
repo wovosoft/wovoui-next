@@ -32,6 +32,7 @@ export interface HasLayoutCols {
     md?: ColSize;
     lg?: ColSize;
     xl?: ColSize;
+    xxl?: ColSize;
 }
 
 export interface HasLayoutGutters {
@@ -42,6 +43,7 @@ export interface HasLayoutGutters {
     gMd?: ColSize;
     gLg?: ColSize;
     gXl?: ColSize;
+    gXxl?: ColSize;
 }
 
 export interface HasLayoutOrders {

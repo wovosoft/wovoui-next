@@ -76,7 +76,7 @@ export interface NavbarBrandProps extends HasTag {
     href?: string;
 }
 
-export interface NavbarProps extends HasBgVariant {
+export interface NavbarProps extends HasBgVariant, HasTag {
     brand?: string;
     brandUrl?: string;
     fluid?: boolean;
