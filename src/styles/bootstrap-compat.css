@@ -1,0 +1,84 @@
+/* Bootstrap compatibility layer implemented with Tailwind's @apply
+   This file provides the most-used Bootstrap class names as equivalents
+   built from Tailwind utilities. It is intended as a transitional shim.
+*/
+
+@layer components {
+  /* Containers */
+  .container { @apply mx-auto px-4; }
+  .container-fluid { @apply w-full px-4; }
+
+  /* Grid / Row / Col (simple flex-based) */
+  .row { @apply flex flex-wrap -mx-2; }
+  .row > .col { @apply px-2 w-full; }
+  /* Utility to set column widths based on 12-grid fractions */
+  .col-1 { @apply w-1/12; }
+  .col-2 { @apply w-2/12; }
+  .col-3 { @apply w-3/12; }
+  .col-4 { @apply w-4/12; }
+  .col-5 { @apply w-5/12; }
+  .col-6 { @apply w-6/12; }
+  .col-7 { @apply w-7/12; }
+  .col-8 { @apply w-8/12; }
+  .col-9 { @apply w-9/12; }
+  .col-10 { @apply w-10/12; }
+  .col-11 { @apply w-11/12; }
+  .col-12 { @apply w-full; }
+
+  /* Responsive breakpoint helpers (common ones) */
+  @screen sm { .col-sm-12 { @apply w-full; } }
+  @screen md { .col-md-3 { @apply md:w-1/4; } }
+  @screen lg { .col-lg-3 { @apply lg:w-1/4; } }
+
+  /* List groups */
+  .list-group { @apply bg-white divide-y divide-gray-200 rounded-md overflow-hidden; }
+  .list-group-flush { @apply divide-y divide-gray-200 border-0 rounded-none; }
+  .list-group-numbered { /* visually handled by markup */ }
+  .list-group-horizontal { @apply flex flex-row; }
+  /* horizontal with breakpoint - basic support */
+  .list-group-horizontal-md { @apply md:flex md:flex-row; }
+
+  .list-group-item { @apply px-4 py-2 bg-white text-gray-800; }
+  .list-group-item-action { @apply cursor-pointer hover:bg-gray-50; }
+  .list-group-item.active { @apply bg-primary text-white; }
+  .list-group-item.disabled { @apply opacity-50 pointer-events-none; }
+  .list-group-item + .list-group-item { @apply border-t border-gray-100; }
+  .list-group-item-action:focus, .list-group-item-action:active { @apply outline-none; }
+
+  /* Navbar */
+  .navbar { @apply flex items-center justify-between px-4 py-2; }
+  .navbar-brand { @apply text-xl font-semibold; }
+  .navbar-toggler { @apply p-2 rounded border border-gray-300; }
+  .navbar-toggler-icon { @apply inline-block w-6 h-0.5 bg-current relative; }
+  .navbar-collapse { @apply hidden md:flex md:items-center md:flex-row; }
+  .navbar-collapse.show { @apply block; }
+  .navbar-expand-lg { @apply lg:flex; }
+
+  /* Navbar variants (bg-*) */
+  .bg-primary { @apply bg-primary text-white; }
+  .bg-secondary { @apply bg-secondary text-white; }
+  .bg-light { @apply bg-light text-gray-900; }
+  .bg-dark { @apply bg-dark text-white; }
+
+  /* Collapse / Accordion */
+  .collapse { @apply hidden; }
+  .collapse.show { @apply block; }
+  .collapsing { @apply transition-all duration-300 overflow-hidden; }
+  .accordion-collapse { @apply transition-all duration-300; }
+  .collapse-horizontal { @apply flex; }
+
+  /* Utilities used in templates */
+  .me-auto { @apply mr-auto; }
+  .mb-2 { @apply mb-2; }
+  .mb-lg-0 { @apply lg:mb-0; }
+  .py-3 { @apply py-3; }
+  .row { @apply flex flex-wrap -mx-2; }
+  .col { @apply px-2; }
+
+  /* list-group-item-action mapping for links */
+  a.list-group-item { @apply inline-block w-full text-left; }
+
+  /* small helpers */
+  .active { @apply bg-primary text-white; }
+  .disabled { @apply opacity-50 pointer-events-none; }
+}
