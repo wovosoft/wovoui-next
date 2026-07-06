@@ -4,39 +4,66 @@ import {isBoolean, isTrue} from "@/composables/useHelpers";
 import {ColProps} from "@/components/Layouts/index";
 
 const props = withDefaults(defineProps<ColProps>(), {
-    tag: 'div'
+  tag: 'div'
 });
 
-const attrs = computed(() => ({
-    class: ({
-        "col": !(props.sm || props.md || props.lg || props.xl || props.cols),
-        ["col-" + props.cols]: props.cols,
-        ["col-sm-" + props.sm]: props.sm && !isBoolean(props.sm),
-        ["col-md-" + props.md]: props.md && !isBoolean(props.md),
-        ["col-lg-" + props.lg]: props.lg && !isBoolean(props.lg),
-        ["col-xl-" + props.xl]: props.xl && !isBoolean(props.xl),
+function pct(n: number) { return `${(n / 12) * 100}%`; }
 
-        "col-sm": isTrue(props.sm),
-        "col-md": isTrue(props.md),
-        "col-lg": isTrue(props.lg),
-        "col-xl": isTrue(props.xl),
+function responsiveWidthClasses(prefix: string | null, value: any) {
+  if (value === undefined || value === null) return [];
+  // if boolean true -> let it be flex-auto at breakpoint
+  if (value === true) {
+    return prefix ? [`${prefix}:flex-1`, `${prefix}:w-full`] : ['flex-1', 'w-full'];
+  }
+  // numeric -> compute percentage
+  const num = Number(value);
+  if (!isNaN(num) && num >= 1 && num <= 12) {
+    const p = pct(num);
+    if (prefix) {
+      return [`${prefix}:flex-[0_0_${p}]`, `${prefix}:max-w-[${p}]`];
+    }
+    return [`flex-[0_0_${p}]`, `max-w-[${p}]`];
+  }
+  return [];
+}
 
-        ["align-self-" + props.align]: props.align,
-        ["justify-content-" + props.justifyContent]: props.justifyContent,
+const attrs = computed(() => {
+  const classes: Array<any> = ['px-2', 'box-border'];
 
-        ["order-" + props.order]: props.order,
+  // default column behaviour
+  const baseCols = props.cols ?? null;
+  if (baseCols) {
+    classes.push(...responsiveWidthClasses(null, baseCols));
+  } else if (!(props.sm || props.md || props.lg || props.xl || props.cols)) {
+    // no sizing provided -> full width flex child
+    classes.push('w-full', 'flex-auto');
+  }
 
-        ["offset-sm-" + props.offsetSm]: props.offsetSm,
-        ["offset-md-" + props.offsetMd]: props.offsetMd,
-        ["offset-lg-" + props.offsetLg]: props.offsetLg,
-        ["offset-xl-" + props.offsetXl]: props.offsetXl,
-    })
-}));
+  // responsive column sizes
+  classes.push(...responsiveWidthClasses('sm', props.sm));
+  classes.push(...responsiveWidthClasses('md', props.md));
+  classes.push(...responsiveWidthClasses('lg', props.lg));
+  classes.push(...responsiveWidthClasses('xl', props.xl));
 
+  // alignment
+  if (props.align) classes.push(`self-${props.align}`);
+  if (props.justifyContent) classes.push(`justify-${props.justifyContent}`);
+
+  // order
+  if (props.order !== undefined && props.order !== null) classes.push(`order-${props.order}`);
+
+  // offsets -> margin-left
+  if (props.offsetSm) classes.push(`sm:ml-[${pct(Number(props.offsetSm))}]`);
+  if (props.offsetMd) classes.push(`md:ml-[${pct(Number(props.offsetMd))}]`);
+  if (props.offsetLg) classes.push(`lg:ml-[${pct(Number(props.offsetLg))}]`);
+  if (props.offsetXl) classes.push(`xl:ml-[${pct(Number(props.offsetXl))}]`);
+
+  return { class: classes };
+});
 </script>
 
 <template>
-    <component :is="tag" v-bind="attrs">
-        <slot></slot>
-    </component>
+  <component :is="tag" v-bind="attrs">
+    <slot></slot>
+  </component>
 </template>
